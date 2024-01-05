@@ -1,0 +1,28 @@
+/* Hide Description Field for Tasks and Sub Tasks */
+
+.acf-field-psp-task-description {
+  display: none;
+}
+
+/* Highlight Background Color for Tasks and Sub Tasks */
+[data-name="milestones"] {
+  background-color:#d4bbc95e;
+}
+
+[data-name="phases"] {
+  background-color: #efecff;
+}
+
+[data-name="tasks"] {
+    background-color: #e9fffa;
+}
+
+
+[data-name="phases"] {
+
+}
+
+
+.acf-field.acf-field-repeater.acf-field-psp-st-sub-tasks {
+  background-color: #ebf3ff;
+}
