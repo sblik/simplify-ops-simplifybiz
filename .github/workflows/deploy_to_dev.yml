@@ -36,4 +36,4 @@ jobs:
           server-dir: /wp-content/plugins/simplify-ops-simplifybiz/
           exclude: |
             **/exclude/**
-            **/.github/**   
+            **/.github/**
