@@ -19,9 +19,18 @@ if (!function_exists('get_option')) {
 }
 
 /**
+ * Define constants
+ */
+define('BS_NAME_VERSION', '1.0.1');
+define('BS_NAME_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('BS_NAME_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('BS_NAME_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
+define('BS_NAME_PLUGIN_FILE', basename(__FILE__));
+define('BS_NAME_PLUGIN_FULL_PATH', __FILE__);
+
+/**
  * Include scripts used throughout plugin
  */
-require_once BS_NAME_PLUGIN_DIR . 'includes/constants.php';
 require_once BS_NAME_PLUGIN_DIR . 'includes/enqueue_scripts.php';
 require_once BS_NAME_PLUGIN_DIR . 'includes/globals.php';
 

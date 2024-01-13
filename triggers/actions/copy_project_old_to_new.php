@@ -35,7 +35,7 @@ if($variables_140_util_trigger_actions['action'] == 1) {
 		)
 	);
 
-	$paging          = array( 'offset' => 0, 'page_size' => 600 );
+	$paging          = array( 'offset' => 0, 'page_size' => 500 );
 
 	/**
 	 * Actions
@@ -48,6 +48,7 @@ if($variables_140_util_trigger_actions['action'] == 1) {
 
 	// FOR EACH ENTRY
 	foreach ($sb_entries as $sb_entry) {
+		BS_Log::info('Entry ID: '. $sb_entry['id']);
 		// if field id 83 is empty, copy the value of field id 39 to field id 83
 		BS_Log::info('Field ID 39: '. $sb_entry[39]);
 		$sb_entry[83] = $sb_entry[39];
