@@ -1,5 +1,2 @@
 This is a test file 2
-I am adding another line of code
-I am adding another line of code
-I am adding a line of code
-I am adding a line of code
+This is a test file 2
