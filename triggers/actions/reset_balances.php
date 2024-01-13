@@ -1,7 +1,7 @@
 <?php
 
 // GET ENTRIES
-bs('/gform-138/reset_balances.php');
+BS_Log::info('/triggers-138/reset_balances.php');
 
 $cuid = rgar($entry, 3); // Client User ID
 $entry_id = rgar($entry, 'id');
@@ -30,7 +30,7 @@ $minutes_balance = intval($entry[7]);
 
 
 
-// bs('Number of Entries: ' . $bs_entries_number);
+// BS_Log::info('Number of Entries: ' . $bs_entries_number);
 
 // For Each Entry
 for ($x = 0; $x < $bs_total_count; $x++) {

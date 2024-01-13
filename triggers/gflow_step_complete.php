@@ -31,7 +31,7 @@ function bs_update_customer_closing_balance_($step_id, $entry_id, $form_id, $sta
         $consumed_minutes = rgar($this_entry, '66');
         $consumed_minutes = intval(str_replace(',', '', $consumed_minutes));
 
-        bs('Client User ID: ' . $client_user_id);
+        BS_Log::info('Client User ID: ' . $client_user_id);
 
         /* ********************************************************************************
          * Get current balances from Form ID 138, 'UTILITY: Reset / Track Customer Balance'
@@ -51,15 +51,15 @@ function bs_update_customer_closing_balance_($step_id, $entry_id, $form_id, $sta
         );
 
         $bs_entries = GFAPI::get_entries($bs_form_id, $bs_search_criteria);
-        bs('Entries');
-        bs($bs_entries);
+        BS_Log::info('Entries');
+        BS_Log::info($bs_entries);
 
         $number_entries = count($bs_entries);
-        bs('Number of Entries: ' . $number_entries);
+        BS_Log::info('Number of Entries: ' . $number_entries);
 
         $bs_entry = $bs_entries[0];
-        bs('Entry');
-        bs($bs_entry);
+        BS_Log::info('Entry');
+        BS_Log::info($bs_entry);
 
         $hours_balance = $bs_entry[6];
         $hours_balance = floatval(str_replace(',', '', $hours_balance));
@@ -77,18 +77,18 @@ function bs_update_customer_closing_balance_($step_id, $entry_id, $form_id, $sta
          * OUTPUT HOURS to log for testing
          * **************************************************************************** */
 
-        bs('Hours Balance: ' . $hours_balance);
-        bs('Purchased (Hours): ' . $purchased_hours);
-        bs('Consumed (Hours): ' . $consumed_hours);
-        bs('New Balance (Hours)' . $hours_new_balance);
+        BS_Log::info('Hours Balance: ' . $hours_balance);
+        BS_Log::info('Purchased (Hours): ' . $purchased_hours);
+        BS_Log::info('Consumed (Hours): ' . $consumed_hours);
+        BS_Log::info('New Balance (Hours)' . $hours_new_balance);
 
         /* ****************************************************************************
          * OUTPUT MINUTES to log for testing
          * **************************************************************************** */
-        bs('Minutes Balance: ' . $minutes_balance);
-        bs('Purchased (Minutes): ' . $purchased_minutes);
-        bs('Consumed (Minutes): ' . $consumed_minutes);
-        bs('New Balance (Minutes)' . $minutes_new_balance);
+        BS_Log::info('Minutes Balance: ' . $minutes_balance);
+        BS_Log::info('Purchased (Minutes): ' . $purchased_minutes);
+        BS_Log::info('Consumed (Minutes): ' . $consumed_minutes);
+        BS_Log::info('New Balance (Minutes)' . $minutes_new_balance);
 
         /* ****************************************************************************
          * Update THIS entry Form ID 50

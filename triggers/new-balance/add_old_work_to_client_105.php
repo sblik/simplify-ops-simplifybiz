@@ -1,8 +1,8 @@
 
 <?php
 
- function bs_create_child_submissions_150_104(){
-bs("FUNCTION 104 TRIGGERED");
+ function bs_create_child_submissions_150_105(){
+BS_Log::info("FUNCTION 105 TRIGGERED");
 $ops_form_id = 50;
 $search_criteria['field_filters'][] = array('key' => null, 'value' => null);
 $search_criteria['status'][] = 'active';
@@ -12,31 +12,33 @@ $ops_entries = GFAPI::get_entries($ops_form_id, $search_criteria, $sorting, $pag
 
 $count_ops_entries = count($ops_entries);
 
-bs("COUNT OPS ENTRIES: " . $count_ops_entries);
+BS_Log::info("COUNT OPS ENTRIES: " . $count_ops_entries);
 /***
- *  CLIENT 104
+ *  CLIENT 105
  */
 $clients_form_id = 150;
-$search_criteria['field_filters'][] = array('key' => '3', 'value' => 104);
+$search_criteria['field_filters'][] = array('key' => '3', 'value' => 105);
 $search_criteria['status'][] = 'active';
 $sorting = array('key' => 'id', 'direction' => 'DESC', 'is_numeric' => true);
-$client_entries_4 = GFAPI::get_entries($clients_form_id, $search_criteria, $sorting);
-bs($client_entries_4[0]);
+$client_entries_1 = GFAPI::get_entries($clients_form_id, $search_criteria, $sorting);
+BS_Log::info($client_entries_1[0]);
 
 for ($i = 0; $i < $count_ops_entries; $i++) {
-    bs("CLIENT USER ID: " . $ops_entries[$i][2]);
+    BS_Log::info("CLIENT USER ID: " . $ops_entries[$i][2]);
     
-    if($ops_entries[$i][2] == 104){
-    bs($client_entries_4[0]);
-    bs("CLIENT ENTRY USER ID: " . $client_entries_4[0][2]);
+    if($ops_entries[$i][2] == 27){
+    $client_entries_1[0];
+    BS_Log::info("CLIENT ENTRY USER ID: " . $client_entries_1[0][2]);
 
+    
+    
         $clientsEmail = $ops_entries[$i]['30'];
         $requestSummary = $ops_entries[$i]['39'];
         $clientUserID = $ops_entries[$i]['2'];
         $clientFirstName = $ops_entries[$i]['1.3'];
         $clientLastName = $ops_entries[$i]['1.6'];
-        $transactionDate = $ops_entries[$i]['18'];
         $organisationName = $ops_entries[$i]['17'];
+        $transactionDate = $ops_entries[$i]['18'];
         $workCompleted = $ops_entries[$i]['70'];
         $hoursSpent = $ops_entries[$i]['46'];
         $purchased_hours = $ops_entries[$i]['68'];
@@ -53,7 +55,7 @@ for ($i = 0; $i < $count_ops_entries; $i++) {
                 '6' => $requestSummary,
                 '7' => $workCompleted,
                 '8' => $hoursSpent,
-                GPNF_Entry::ENTRY_PARENT_KEY => $client_entries_4[0]['id'], // The ID of the parent entry.
+                GPNF_Entry::ENTRY_PARENT_KEY => $client_entries_1[0]['id'], // The ID of the parent entry.
                 GPNF_Entry::ENTRY_PARENT_FORM_KEY => 150, // The ID of the parent form.
                 GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY => 6, // The ID of the Nested Form field on the parent form.
             );

@@ -33,19 +33,19 @@ $bs_sorting = array('key' => $bs_sort_field, 'direction' => 'ASC', 'is_numeric' 
 $bs_paging = array('offset' => 0, 'page_size' => 1000);
 
 $bs_entries = GFAPI::get_entries($bs_form_id, $bs_search_criteria, $bs_sorting, $bs_paging, $bs_total_count);
-// bs('Entries');
-// bs($bs_entries);
+// BS_Log::info('Entries');
+// BS_Log::info($bs_entries);
 for ($x = 0; $x < $bs_total_count; $x++) {
     $bs_entry = $bs_entries[$x];
 
     $bs_entry_id = $bs_entry['id'];
-    bs('Form ID 50 Entry Id: ' . $bs_entry_id);
+    BS_Log::info('Form ID 50 Entry Id: ' . $bs_entry_id);
 
     $email_dropdown_old = $bs_entry[30];
-    bs('Email Dropdown Old: ' . $email_dropdown_old);
+    BS_Log::info('Email Dropdown Old: ' . $email_dropdown_old);
     $email_old = $bs_entry[31];
-    bs('Email  Old: ' . $email_old);
-    bs('Email New: ' . $email_new);
+    BS_Log::info('Email  Old: ' . $email_old);
+    BS_Log::info('Email New: ' . $email_new);
 
     // if old fields are populated, populate new fields
     $result = GFAPI::update_entry_field($bs_entry_id, 30, $email_new);
