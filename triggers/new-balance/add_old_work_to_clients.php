@@ -17,7 +17,7 @@
  }
  add_action('rest_api_init', 'bs_register_webhook_endpoint');
  function bs_create_child_submissions_150(){
-bs("FUNCTION TRIGGERED");
+BS_Log::info("FUNCTION TRIGGERED");
 $ops_form_id = 50;
 $search_criteria['field_filters'][] = array('key' => null, 'value' => null);
 $search_criteria['status'][] = 'active';
@@ -27,25 +27,25 @@ $ops_entries = GFAPI::get_entries($ops_form_id, $search_criteria, $sorting, $pag
 
 $count_ops_entries = count($ops_entries);
 
-bs("COUNT OPS ENTRIES: " . $count_ops_entries);
+BS_Log::info("COUNT OPS ENTRIES: " . $count_ops_entries);
 $clients_form_id = 150;
 $search_criteria['field_filters'][] = array('key' => '3', 'value' => 23);
 $search_criteria['status'][] = 'active';
 $sorting = array('key' => 'id', 'direction' => 'DESC', 'is_numeric' => true);
 $client_entries = GFAPI::get_entries($clients_form_id, $search_criteria, $sorting);
-bs($client_entries[0]);
+BS_Log::info($client_entries[0]);
 
 
 /***
  *  CLIENT 23
  */
 for ($i = 0; $i < $count_ops_entries; $i++) {
-bs("CLIENT USER ID: " . $ops_entries[$i][2]);
+BS_Log::info("CLIENT USER ID: " . $ops_entries[$i][2]);
 
 if($ops_entries[$i][2] == 23){
-bs($client_entries[0]);
+BS_Log::info($client_entries[0]);
 
-bs("CLIENT ENTRY USER ID: " . $client_entries[0][2]);
+BS_Log::info("CLIENT ENTRY USER ID: " . $client_entries[0][2]);
 
 
 $clientsEmail = $ops_entries[$i]['30'];
@@ -93,8 +93,8 @@ $new_child_entry = array(
     // $ops_entries[$i][GPNF_Entry::ENTRY_PARENT_FORM_KEY] = 150; // The ID of the parent form.
     // $ops_entries[$i][GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY] = 6; // The ID of the Nested Form field on the parent form.
        
-    //     bs("OPS ENTRY AFTER ASSIGNING: ");
-    //     bs($ops_entries[$i]);
+    //     BS_Log::info("OPS ENTRY AFTER ASSIGNING: ");
+    //     BS_Log::info($ops_entries[$i]);
     //     $child_entry_id = GFAPI::update_entry( $ops_entries[$i] );
 
 
