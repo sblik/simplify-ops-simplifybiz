@@ -13,39 +13,24 @@
  * @since 1.0.0
  */
 
-if (!function_exists('get_option')) {
-    header('HTTP/1.0 403 Forbidden');
-    die; // Silence is golden, direct call is prohibited
+if ( ! function_exists( 'get_option' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	die; // Silence is golden, direct call is prohibited
 }
 
 /**
  * Define constants
  */
-define('BS_NAME_VERSION', '1.0.1');
-define('BS_NAME_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('BS_NAME_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('BS_NAME_PLUGIN_BASE_NAME', plugin_basename(__FILE__));
-define('BS_NAME_PLUGIN_FILE', basename(__FILE__));
-define('BS_NAME_PLUGIN_FULL_PATH', __FILE__);
+define( 'SITE_URL', get_site_url() );
+define( 'BS_NAME_VERSION', '1.0.1' );
+define( 'BS_NAME_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'BS_NAME_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BS_NAME_PLUGIN_BASE_NAME', plugin_basename( __FILE__ ) );
+define( 'BS_NAME_PLUGIN_FILE', basename( __FILE__ ) );
+define( 'BS_NAME_PLUGIN_FULL_PATH', __FILE__ );
 
-/**
- * Include scripts used throughout plugin
- */
-require_once BS_NAME_PLUGIN_DIR . 'includes/enqueue_scripts.php';
-require_once BS_NAME_PLUGIN_DIR . 'includes/globals.php';
+require_once BS_NAME_PLUGIN_DIR . 'includes/php/utilities/bs_require_utilities.php';
+require_once BS_NAME_PLUGIN_DIR . 'includes/bs_bootstrap.php';
 
-// Include Helpers
-require_once BS_NAME_PLUGIN_DIR . 'helpers/gperks_list_fields_as_choices.php';
-require_once BS_NAME_PLUGIN_DIR . 'helpers/gform_ids.php';
-require_once BS_NAME_PLUGIN_DIR . 'helpers/gravityview_display_label.php';
-require_once BS_NAME_PLUGIN_DIR . 'helpers/gravityflow_inbox_sort_order.php';
-
-/**
- * Include Triggers
- */
-require_once BS_NAME_PLUGIN_DIR . 'triggers/gflow_step_complete.php';
-//require_once BS_NAME_PLUGIN_DIR . 'triggers/gform_50_submission_ops_work_completed.php';
-require_once BS_NAME_PLUGIN_DIR . 'triggers/gform_140_submission_utility_trigger_action.php';
-require_once BS_NAME_PLUGIN_DIR . 'triggers/profile_updated.php';
-// A Note
+bootstrap_ops_simplify_plugin();
 
