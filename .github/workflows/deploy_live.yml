@@ -40,6 +40,7 @@ jobs:
           username: ${{ secrets.FTP_LIVE_USERNAME }}
           password: ${{ secrets.FTP_LIVE_PASSWORD }}         
           server-dir: /wp-content/plugins/simplify-ops-simplifybiz/
+          local-dir: ./src/
           exclude: |
             **/exclude/**
             **/.github/** 

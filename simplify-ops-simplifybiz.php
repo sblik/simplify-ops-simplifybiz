@@ -38,7 +38,7 @@ require_once BS_NAME_PLUGIN_DIR . 'includes/globals.php';
 require_once BS_NAME_PLUGIN_DIR . 'helpers/gperks_list_fields_as_choices.php';
 require_once BS_NAME_PLUGIN_DIR . 'helpers/gform_ids.php';
 require_once BS_NAME_PLUGIN_DIR . 'helpers/gravityview_display_label.php';
-require_once  BS_NAME_PLUGIN_DIR . 'helpers/gravityflow_inbox_sort_order.php';
+require_once BS_NAME_PLUGIN_DIR . 'helpers/gravityflow_inbox_sort_order.php';
 
 /**
  * Include Triggers
