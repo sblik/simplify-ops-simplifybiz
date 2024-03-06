@@ -1,4 +1,7 @@
 <?php
+
+namespace php\entities;
+
 /**
  * Form ID 161
  *
@@ -7,7 +10,6 @@
  * @property $queryPeriodFrom
  * @property $queryPeriodTo
  */
-
 class UpdateHoursWorkedDevEntity extends BS_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );

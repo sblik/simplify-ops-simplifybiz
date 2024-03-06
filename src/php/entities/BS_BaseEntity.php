@@ -1,6 +1,6 @@
 <?php
 
-namespace entities;
+namespace php\entities;
 use GPNF_Entry;
 
 /**

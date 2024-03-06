@@ -1,19 +1,23 @@
 <?php
+
+namespace php\helpers;
+use GFFormsModel;
+
 /**
-* Gravity Wiz // Gravity Forms // Use List Field as Choices for Gravity Forms
-* https://gravitywiz.com/use-list-field-choices-gravity-forms/
-*
-* Adds support for populating choice-based fields (i.e. checkboxes, selects, radio buttons) with values entered in a
-* List field. This functionality requires that the form has multiple pages and that the List field must be placed on
-* a page prior to the choice-based field that it will populate.
-*
-* Plugin Name:  Gravity Forms - Use List Field as Choices
-* Plugin URI:   https://gravitywiz.com/use-list-field-choices-gravity-forms/
-* Description:  Adds support for populating choice-based fields with values entered in a List field.
-* Author:       Gravity Wiz
-* Version:      1.0
-* Author URI:   https://gravitywiz.com/
-*/
+ * Gravity Wiz // Gravity Forms // Use List Field as Choices for Gravity Forms
+ * https://gravitywiz.com/use-list-field-choices-gravity-forms/
+ *
+ * Adds support for populating choice-based fields (i.e. checkboxes, selects, radio buttons) with values entered in a
+ * List field. This functionality requires that the form has multiple pages and that the List field must be placed on
+ * a page prior to the choice-based field that it will populate.
+ *
+ * Plugin Name:  Gravity Forms - Use List Field as Choices
+ * Plugin URI:   https://gravitywiz.com/use-list-field-choices-gravity-forms/
+ * Description:  Adds support for populating choice-based fields with values entered in a List field.
+ * Author:       Gravity Wiz
+ * Version:      1.0
+ * Author URI:   https://gravitywiz.com/
+ */
 class GW_List_Field_As_Choices {
 
 	function __construct( $args ) {
@@ -52,11 +56,11 @@ class GW_List_Field_As_Choices {
 		 * Filter the values from the List field that will be used to populate field choices.
 		 *
 		 * @param array|mixed|string $values The List field values that will be used to populate field choices.
-		 * @param array              $form   The current form.
-		 * @param array				 $args   The arguments used to initialize this instance of GW_List_Field_As_Choices.
+		 * @param array $form The current form.
+		 * @param array $args The arguments used to initialize this instance of GW_List_Field_As_Choices.
 		 */
 		$values = apply_filters( 'gwlfac_list_field_values', $values, $form, $this->_args );
-		
+
 		// if list field doesn't have any values, let's ditch this party
 		if ( ! is_array( $values ) ) {
 			return $form;
@@ -106,7 +110,7 @@ class GW_List_Field_As_Choices {
 		}
 
 		if ( $this->_args['sort'] == true ) {
-			usort( $choices, function( $a, $b ) {
+			usort( $choices, function ( $a, $b ) {
 				return strnatcasecmp( $a['text'], $b['text'] );
 			} );
 		}
@@ -147,16 +151,16 @@ class GW_List_Field_As_Choices {
 }
 
 /**
-* Uncomment the code below by removing the pound symbols (#) in front of each line. See @link in the comment section
-* at the top for additional usage instructions.
-*/
+ * Uncomment the code below by removing the pound symbols (#) in front of each line. See @link in the comment section
+ * at the top for additional usage instructions.
+ */
 /*
  * Form ID: 134
  * Form Name: Task Assignments
  */
 
 new GW_List_Field_As_Choices( array(
- 'form_id' => 134,
- 'list_field_id' => 6,
- 'choice_field_ids' => 11
+	'form_id'          => 134,
+	'list_field_id'    => 6,
+	'choice_field_ids' => 11
 ) ); 

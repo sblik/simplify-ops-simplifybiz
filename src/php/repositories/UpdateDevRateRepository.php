@@ -1,9 +1,8 @@
 <?php
 
-namespace repositories;
+namespace php\repositories;
 
-use UpdateHoursWorkedDevEntity;
-use BS_BaseRepository;
+use php\entities\UpdateHoursWorkedDevEntity;
 use WP_Error;
 
 /**

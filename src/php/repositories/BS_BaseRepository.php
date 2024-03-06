@@ -1,8 +1,9 @@
 <?php
 
-namespace repositories;
+namespace php\repositories;
 use FormFields;
 use GFAPI;
+use repositories\Exception;
 use WP_Error;
 
 /**

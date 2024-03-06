@@ -29,8 +29,8 @@ define( 'BS_NAME_PLUGIN_BASE_NAME', plugin_basename( __FILE__ ) );
 define( 'BS_NAME_PLUGIN_FILE', basename( __FILE__ ) );
 define( 'BS_NAME_PLUGIN_FULL_PATH', __FILE__ );
 
-require_once BS_NAME_PLUGIN_DIR . 'includes/php/utilities/bs_require_utilities.php';
-require_once BS_NAME_PLUGIN_DIR . 'includes/bs_bootstrap.php';
+require_once BS_NAME_PLUGIN_DIR . 'php/utilities/bs_require_utilities.php.php';
+require_once BS_NAME_PLUGIN_DIR . 'bs_bootstrap.php';
 
 bootstrap_ops_simplify_plugin();
 
