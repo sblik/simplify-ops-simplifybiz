@@ -1,7 +1,5 @@
 <?php
 
-namespace php\entities;
-
 /**
  * Form ID 161
  *

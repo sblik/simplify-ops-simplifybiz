@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="LaravelPintOptionsConfiguration">
+    <option name="ruleset" value="laravel" />
+  </component>
   <component name="MessDetectorOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
@@ -13,7 +16,9 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/../Local/ops/app/public" />
-      <path value="$PROJECT_DIR$/../../Local/rlp/app/public" />
+      <path value="$USER_HOME$/Local/rlp/app/public" />
+      <path value="$USER_HOME$/Local Sites/tomops/app/public" />
+      <path value="$USER_HOME$/Local Sites/tomops/app/public/wp-content/plugins/gravityforms" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

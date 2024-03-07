@@ -1,9 +1,5 @@
 <?php
 
-namespace php\repositories;
-
-use php\entities\WorkCompletedReportEntity;
-use WP_Error;
 
 /**
  * A repository for performing CRUD operations on the attendee form

@@ -1,10 +1,5 @@
 <?php
 
-namespace php\repositories;
-
-use php\entities\UpdateHoursWorkedDevEntity;
-use WP_Error;
-
 /**
  * A repository for performing CRUD operations on the attendee form
  *

@@ -1,9 +1,5 @@
 <?php
 
-namespace php\classes;
-
-use GFAPI;
-
 /**
  *  This class will contain methods that are used throughout the plugin to handle
  *      repeated instances of using the GFAPI to get form entry data
