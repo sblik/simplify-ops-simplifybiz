@@ -5,7 +5,12 @@ function update_hours_worked_dev_rate( $entry, $form ) {
 
 	$updateDevRate            = new UpdateHoursWorkedDevEntity( $entry );
 	$newDevRate               = $updateDevRate->devRate;
+	$userID                   = $updateDevRate->employeeUserID;
 	$employeesWorkSubmissions = get_work_submission_entities( $updateDevRate );
+
+	if ( $updateDevRate->updateDevRateMetaYN == 'Yes' ) {
+		update_user_meta( $userID, 'devrate', $newDevRate );
+	}
 
 	foreach ( $employeesWorkSubmissions as $employeeWorkSubmission ) {
 		$employeeWorkSubmission->consumedHours = $employeeWorkSubmission->numberOfHoursWorked * $newDevRate;
@@ -13,9 +18,6 @@ function update_hours_worked_dev_rate( $entry, $form ) {
 
 		WorkCompletedReportsRepository::update( $employeeWorkSubmission );
 	}
-
-	BS_Log::info( "WORK SUBMISSIONS ENTITIES: ", $employeesWorkSubmissions );
-
 
 }
 
