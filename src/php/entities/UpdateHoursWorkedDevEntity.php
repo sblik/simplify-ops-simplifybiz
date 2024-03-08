@@ -7,6 +7,9 @@
  * @property $queryPeriodFrom
  * @property $queryPeriodTo
  * @property $updateDevRateMetaYN
+ * @property $clientEmail
+ * @property $updateForClientYN
+ * @property $clientOrg
  */
 class UpdateHoursWorkedDevEntity extends BS_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -21,6 +24,8 @@ class UpdateHoursWorkedDevEntity extends BS_BaseEntity {
 			'queryPeriodFrom'     => '4',
 			'queryPeriodTo'       => '5',
 			'updateDevRateMetaYN' => '8',
+			'clientEmail'         => '9',
+			'updateForClientYN'   => '11',
 		);
 	}
 }

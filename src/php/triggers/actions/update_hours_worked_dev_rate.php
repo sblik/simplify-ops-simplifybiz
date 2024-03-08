@@ -31,6 +31,30 @@ function get_work_submission_entities( UpdateHoursWorkedDevEntity $updateDevRate
 	foreach ( $employeesWorkSubmissionsEntries as $employeeEntry ) {
 		$employeesWorkSubmissions[] = new WorkCompletedReportEntity( $employeeEntry );
 	}
+	if ( $updateDevRate->updateForClientYN == 'Yes' ) {
+		return get_submissions_for_client( $employeesWorkSubmissions, $updateDevRate );
+	}
 
 	return $employeesWorkSubmissions;
+}
+
+/**
+ * @param array $employeesWorkSubmissions
+ * @param UpdateHoursWorkedDevEntity $updateDevRate
+ *
+ * @return array
+ */
+function get_submissions_for_client( array $employeesWorkSubmissions, UpdateHoursWorkedDevEntity $updateDevRate ): array {
+	foreach ( $employeesWorkSubmissions as $workSumbission ) {
+		$clientEmail     = $updateDevRate->clientEmail;
+		$clientWorkIsFor = $workSumbission->clientEmail;
+
+		if ( $clientEmail == $clientWorkIsFor ) {
+			$filteredEmployeesWorkSubmissionsEntries[] = $workSumbission;
+		}
+
+	}
+	BS_Log::info( "FILTERED ARRAY FOR $clientEmail SUBMISSIONS: ", $filteredEmployeesWorkSubmissionsEntries );
+
+	return $filteredEmployeesWorkSubmissionsEntries;
 }

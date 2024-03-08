@@ -5,6 +5,7 @@
  * @property $numberOfHoursWorked
  * @property $devRate
  * @property $consumedHours
+ * @property $clientEmail
  */
 class WorkCompletedReportEntity extends BS_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -17,6 +18,7 @@ class WorkCompletedReportEntity extends BS_BaseEntity {
 			'numberOfHoursWorked' => '107',
 			'devRate'             => '109',
 			'consumedHours'       => '46',
+			'clientEmail'         => '31',
 		);
 	}
 }

@@ -8,10 +8,10 @@ on:
     branches: [ "main" ]
   # Ignores all branches for pull requests
   pull_request:
-    branches-ignore: ["**"]
+    branches-ignore: [ "**" ]
   # Ignores all branches for pull request target
   pull_request_target:
-    branches-ignore: ["**"]
+    branches-ignore: [ "**" ]
 
 
   # Allows you to run this workflow manually from the Actions tab
@@ -38,9 +38,9 @@ jobs:
         with:
           server: ftp.simplifybiz.com
           username: ${{ secrets.FTP_LIVE_USERNAME }}
-          password: ${{ secrets.FTP_LIVE_PASSWORD }}         
+          password: ${{ secrets.FTP_LIVE_PASSWORD }}
           server-dir: /wp-content/plugins/simplify-ops-simplifybiz/
-          local-dir: ./src/
+          local-dir: ./src/php/
           exclude: |
             **/exclude/**
             **/.github/** 
