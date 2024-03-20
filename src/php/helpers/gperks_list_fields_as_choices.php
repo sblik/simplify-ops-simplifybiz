@@ -1,6 +1,7 @@
 <?php
 
 namespace php\helpers;
+
 use GFFormsModel;
 
 /**
@@ -55,9 +56,9 @@ class GW_List_Field_As_Choices {
 		/**
 		 * Filter the values from the List field that will be used to populate field choices.
 		 *
-		 * @param array|mixed|string $values The List field values that will be used to populate field choices.
-		 * @param array $form The current form.
-		 * @param array $args The arguments used to initialize this instance of GW_List_Field_As_Choices.
+		 * @param  array|mixed|string  $values  The List field values that will be used to populate field choices.
+		 * @param  array  $form  The current form.
+		 * @param  array  $args  The arguments used to initialize this instance of GW_List_Field_As_Choices.
 		 */
 		$values = apply_filters( 'gwlfac_list_field_values', $values, $form, $this->_args );
 
@@ -162,5 +163,5 @@ class GW_List_Field_As_Choices {
 new GW_List_Field_As_Choices( array(
 	'form_id'          => 134,
 	'list_field_id'    => 6,
-	'choice_field_ids' => 11
+	'choice_field_ids' => 11,
 ) ); 

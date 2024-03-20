@@ -21,7 +21,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Delete entry in Gravity Forms
 	 *
-	 * @param mixed $entryId
+	 * @param  mixed  $entryId
 	 *
 	 * @return bool|WP_Error Either true for success or a WP_Error instance.
 	 */
@@ -32,7 +32,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Updates an entire single Entry object in Gravity Forms.
 	 *
-	 * @param T $entity
+	 * @param  T  $entity
 	 *
 	 */
 	static function update( $entity ) {
@@ -42,7 +42,7 @@ abstract class BS_BaseRepository {
 	/**
 	 * Adds an entire single Entry object in Gravity Forms.
 	 *
-	 * @param T $entity
+	 * @param  T  $entity
 	 *
 	 * @return int|WP_Error Either the new Entry ID or a WP_Error instance.
 	 */
@@ -87,8 +87,8 @@ abstract class BS_BaseRepository {
 	 *
 	 * @param  $fieldId
 	 * @param  $value
-	 * @param string $direction
-	 * @param null $paging
+	 * @param  string  $direction
+	 * @param  null  $paging
 	 *
 	 * @return T[]
 	 */
@@ -157,7 +157,7 @@ abstract class BS_BaseRepository {
 	 *
 	 * @param  $fieldId
 	 * @param  $value
-	 * @param string $direction
+	 * @param  string  $direction
 	 *
 	 * @return T[]
 	 */

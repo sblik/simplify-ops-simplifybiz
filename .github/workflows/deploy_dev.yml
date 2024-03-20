@@ -32,7 +32,7 @@ jobs:
         with:
           server: ftp.sblik.com
           username: ${{ secrets.FTP_DEV_USERNAME }}
-          password: ${{ secrets.FTP_DEV_PASSWORD }}         
+          password: ${{ secrets.FTP_DEV_PASSWORD }}
           server-dir: /wp-content/plugins/simplify-ops-simplifybiz/
           exclude: |
             **/exclude/**
