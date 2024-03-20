@@ -1,7 +1,7 @@
 <?php
 
 function bs_create_child_submissions_150_27() {
-	BS_Log::info( "FUNCTION 27 TRIGGERED" );
+	SMPLFY_Log::info( "FUNCTION 27 TRIGGERED" );
 	$ops_form_id                        = 50;
 	$search_criteria['field_filters'][] = array( 'key' => null, 'value' => null );
 	$search_criteria['status'][]        = 'active';
@@ -11,24 +11,20 @@ function bs_create_child_submissions_150_27() {
 
 	$count_ops_entries = count( $ops_entries );
 
-	BS_Log::info( "COUNT OPS ENTRIES: " . $count_ops_entries );
+	SMPLFY_Log::info( "COUNT OPS ENTRIES: " . $count_ops_entries );
 	/***
 	 *  CLIENT 27
 	 */
 	$clients_form_id                    = 150;
 	$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => 27 );
-	$search_criteria['status'][]        = 'active';
-	$sorting                            = array( 'key' => 'id', 'direction' => 'DESC', 'is_numeric' => true );
 	$client_entries_1                   = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
-	BS_Log::info( $client_entries_1[0] );
+	SMPLFY_Log::info( $client_entries_1[0] );
 
 	for ( $i = 0; $i < $count_ops_entries; $i ++ ) {
-		BS_Log::info( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
+		SMPLFY_Log::info( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
 
 		if ( $ops_entries[ $i ][2] == 27 ) {
-			$client_entries_1[0];
-			BS_Log::info( "CLIENT ENTRY USER ID: " . $client_entries_1[0][2] );
-
+			SMPLFY_Log::info( "CLIENT ENTRY USER ID: " . $client_entries_1[0][2] );
 
 			$clientsEmail     = $ops_entries[ $i ]['30'];
 			$requestSummary   = $ops_entries[ $i ]['39'];
@@ -39,7 +35,6 @@ function bs_create_child_submissions_150_27() {
 			$transactionDate  = $ops_entries[ $i ]['18'];
 			$workCompleted    = $ops_entries[ $i ]['70'];
 			$hoursSpent       = $ops_entries[ $i ]['46'];
-			$purchased_hours  = $ops_entries[ $i ]['68'];
 
 			$new_child_entry = array(
 				'form_id'                               => 151, // The ID of the child form.
@@ -58,7 +53,7 @@ function bs_create_child_submissions_150_27() {
 				GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY => 6, // The ID of the Nested Form field on the parent form.
 			);
 
-			$child_entry_id = GFAPI::add_entry( $new_child_entry );
+			GFAPI::add_entry( $new_child_entry );
 
 		}
 

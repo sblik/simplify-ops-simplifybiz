@@ -16,7 +16,6 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		$this_entry = GFAPI::get_entry( $entry_id );
 
 		$client_user_id        = rgar( $this_entry, '2' );
-		$minutes_purchased_old =
 
 		$purchased_hours = rgar( $this_entry, '68' );
 		$purchased_hours       = floatval( str_replace( ',', '', $purchased_hours ) );
@@ -30,7 +29,7 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		$consumed_minutes = rgar( $this_entry, '66' );
 		$consumed_minutes = intval( str_replace( ',', '', $consumed_minutes ) );
 
-		BS_Log::info( 'Client User ID: ' . $client_user_id );
+		SMPLFY_Log::info( 'Client User ID: ' . $client_user_id );
 
 		/* ********************************************************************************
 		 * Get current balances from Form ID 138, 'UTILITY: Reset / Track Customer Balance'
@@ -50,15 +49,15 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		);
 
 		$bs_entries = GFAPI::get_entries( $bs_form_id, $bs_search_criteria );
-		BS_Log::info( 'Entries' );
-		BS_Log::info( $bs_entries );
+		SMPLFY_Log::info( 'Entries' );
+		SMPLFY_Log::info( $bs_entries );
 
 		$number_entries = count( $bs_entries );
-		BS_Log::info( 'Number of Entries: ' . $number_entries );
+		SMPLFY_Log::info( 'Number of Entries: ' . $number_entries );
 
 		$bs_entry = $bs_entries[0];
-		BS_Log::info( 'Entry' );
-		BS_Log::info( $bs_entry );
+		SMPLFY_Log::info( 'Entry' );
+		SMPLFY_Log::info( $bs_entry );
 
 		$hours_balance = $bs_entry[6];
 		$hours_balance = floatval( str_replace( ',', '', $hours_balance ) );
@@ -76,41 +75,41 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		 * OUTPUT HOURS to log for testing
 		 * **************************************************************************** */
 
-		BS_Log::info( 'Hours Balance: ' . $hours_balance );
-		BS_Log::info( 'Purchased (Hours): ' . $purchased_hours );
-		BS_Log::info( 'Consumed (Hours): ' . $consumed_hours );
-		BS_Log::info( 'New Balance (Hours)' . $hours_new_balance );
+		SMPLFY_Log::info( 'Hours Balance: ' . $hours_balance );
+		SMPLFY_Log::info( 'Purchased (Hours): ' . $purchased_hours );
+		SMPLFY_Log::info( 'Consumed (Hours): ' . $consumed_hours );
+		SMPLFY_Log::info( 'New Balance (Hours)' . $hours_new_balance );
 
 		/* ****************************************************************************
 		 * OUTPUT MINUTES to log for testing
 		 * **************************************************************************** */
-		BS_Log::info( 'Minutes Balance: ' . $minutes_balance );
-		BS_Log::info( 'Purchased (Minutes): ' . $purchased_minutes );
-		BS_Log::info( 'Consumed (Minutes): ' . $consumed_minutes );
-		BS_Log::info( 'New Balance (Minutes)' . $minutes_new_balance );
+		SMPLFY_Log::info( 'Minutes Balance: ' . $minutes_balance );
+		SMPLFY_Log::info( 'Purchased (Minutes): ' . $purchased_minutes );
+		SMPLFY_Log::info( 'Consumed (Minutes): ' . $consumed_minutes );
+		SMPLFY_Log::info( 'New Balance (Minutes)' . $minutes_new_balance );
 
 		/* ****************************************************************************
 		 * Update THIS entry Form ID 50
 		 * **************************************************************************** */
 		$this_entry_field_id_bal_bfwd_hours = 56;
-		$result                             = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_hours, $hours_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_hours, $hours_balance );
 
 		$this_entry_field_id_bal_new_hours = 57;
-		$result                            = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_hours, $hours_new_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_hours, $hours_new_balance );
 
 		$this_entry_field_id_bal_bfwd_minutes = 16;
-		$result                               = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_minutes, $minutes_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_minutes, $minutes_balance );
 
 		$this_entry_field_id_bal_new_minutes = 12;
-		$result                              = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_minutes, $minutes_new_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_minutes, $minutes_new_balance );
 
 		/* ****************************************************************************
 		 * Update entry Form ID 138 entry
 		 * **************************************************************************** */
 		$bs_entry_field_id_balance_hours = 6;
-		$result                          = GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_hours, $hours_new_balance );
+		GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_hours, $hours_new_balance );
 
 		$bs_entry_field_id_balance_minutes = 7;
-		$result                            = GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_minutes, $minutes_new_balance );
+		GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_minutes, $minutes_new_balance );
 	}
 }

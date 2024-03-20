@@ -1,23 +1,30 @@
 <?php
 
-
 function bootstrap_ops_simplify_plugin() {
 	require_dependencies();
+
+	DependencyFactory::create_plugin_dependencies();
 }
 
-
 function require_dependencies() {
+	$require = new SMPLFY_Require( BS_NAME_PLUGIN_DIR );
 
-	// TODO: move require statements closer to where they are used
+	try {
+		$require->file( 'php/includes/enqueue_scripts.php' );
 
-	require_file( 'php/includes/enqueue_scripts.php' );
-	require_file( 'php/repositories/BS_BaseRepository.php' );
-	require_file( 'php/entities/BS_BaseEntity.php' );
+		$require->directory( 'php/entities' );
+		$require->directory( 'php/classes' );
+		$require->directory( 'php/repositories' );
+		$require->directory( 'php/helpers' );
+		$require->directory( 'php/includes' );
+		$require->directory( 'php/triggers' );
+		$require->directory( 'php/usecases' );
+		$require->directory( 'php/adapters' );
 
-	require_directory( 'php/entities' );
-	require_directory( 'php/classes' );
-	require_directory( 'php/repositories' );
-	require_directory( 'php/helpers' );
-	require_directory( 'php/includes' );
-	require_directory( 'php/triggers' );
+		$require->file( 'php/DependencyFactory.php' );
+
+	} catch ( Exception $e ) {
+		error_log( $e->getMessage() );
+	}
+
 }

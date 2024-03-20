@@ -1,28 +1,17 @@
 /* GRAVITYVIEWS
 ---------------------------------------------------------------------------- */
 /* Multi entry view */
-.gv-list-multiple-container
-.gv-list-view
-.gv-grid
-.gv-list-view-content-description {
+.gv-list-multiple-container .gv-list-view .gv-grid .gv-list-view-content-description {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
 }
 
-.gv-list-multiple-container
-.gv-list-view
-.gv-grid
-.gv-list-view-content-description
-div:first-child {
+.gv-list-multiple-container .gv-list-view .gv-grid .gv-list-view-content-description div:first-child {
     width: 90px;
 }
 
-.gv-list-multiple-container
-.gv-list-view
-.gv-grid
-.gv-list-view-content-description
-div {
+.gv-list-multiple-container .gv-list-view .gv-grid .gv-list-view-content-description div {
     margin-right: 20px;
 }
 
