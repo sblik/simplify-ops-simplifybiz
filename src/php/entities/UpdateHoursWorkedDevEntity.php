@@ -8,7 +8,7 @@
  * @property $queryPeriodTo
  * @property $updateDevRateMetaYN
  */
-class UpdateHoursWorkedDevEntity extends BS_BaseEntity {
+class UpdateHoursWorkedDevEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 		$this->formId = 161;

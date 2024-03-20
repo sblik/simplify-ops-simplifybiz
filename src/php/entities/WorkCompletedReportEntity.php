@@ -6,7 +6,7 @@
  * @property $devRate
  * @property $consumedHours
  */
-class WorkCompletedReportEntity extends BS_BaseEntity {
+class WorkCompletedReportEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 		$this->formId = 50;

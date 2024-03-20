@@ -13,11 +13,6 @@
  * @since 1.0.0
  */
 
-if ( ! function_exists( 'get_option' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die; // Silence is golden, direct call is prohibited
-}
-
 /**
  * Define constants
  */
