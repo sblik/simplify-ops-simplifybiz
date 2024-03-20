@@ -8,11 +8,12 @@ class UpdateHoursWorked {
 	}
 
 	function update_dev_rate( $entry, $form ) {
-		SMPLFY_Log::info( 'UpdateHoursWorked::update_dev_rate', $entry );
-		
-		$updateDevRate            = new UpdateHoursWorkedDevEntity( $entry );
-		$newDevRate               = $updateDevRate->devRate;
-		$userID                   = $updateDevRate->employeeUserID;
+		$updateDevRate = new UpdateHoursWorkedDevEntity( $entry );
+		$newDevRate    = $updateDevRate->devRate;
+		$userID        = $updateDevRate->employeeUserID;
+
+		SMPLFY_Log::info( "Update dev rate", $updateDevRate );
+
 		$employeesWorkSubmissions = $this->get_work_submission_entities( $updateDevRate );
 
 		if ( $updateDevRate->updateDevRateMetaYN == 'Yes' ) {

@@ -14,6 +14,8 @@ function sb_user_updated( $user_id, $old_user_data, $userdata ) {
 //    SMPLFY_Log::info('User ID: ' . $user_id);
 //    SMPLFY_Log::info('Old User Data:');
 //    SMPLFY_Log::info($old_user_data);
+
+	// TODO: we should be weary about logging the user data because it contains sensitive information such as password etc.
 	SMPLFY_Log::info( 'User Data:' );
 	SMPLFY_Log::info( $userdata );
 
