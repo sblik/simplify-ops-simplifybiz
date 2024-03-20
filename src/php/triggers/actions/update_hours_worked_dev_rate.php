@@ -22,7 +22,7 @@ function update_hours_worked_dev_rate( $entry, $form ) {
 }
 
 /**
- * @param UpdateHoursWorkedDevEntity $updateDevRate
+ * @param  UpdateHoursWorkedDevEntity  $updateDevRate
  *
  * @return WorkCompletedReportEntity[]
  */

@@ -7,6 +7,6 @@
 
 
 $variables_140_util_trigger_actions = array(
-	"id" => rgar($entry, 'id'),
-	"action" => rgar($sb_action, '1')
+	"id"     => rgar( $entry, 'id' ),
+	"action" => rgar( $sb_action, '1' ),
 );
