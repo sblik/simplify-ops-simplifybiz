@@ -26,7 +26,6 @@ function bs_create_child_submissions_150_105() {
 		if ( $ops_entries[ $i ][2] == 27 ) {
 			SMPLFY_Log::info( "CLIENT ENTRY USER ID: " . $client_entries_1[0][2] );
 
-
 			$clientsEmail     = $ops_entries[ $i ]['30'];
 			$requestSummary   = $ops_entries[ $i ]['39'];
 			$clientUserID     = $ops_entries[ $i ]['2'];

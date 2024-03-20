@@ -29,7 +29,6 @@ function bs_create_child_submissions_150() {
 	SMPLFY_Log::info( "COUNT OPS ENTRIES: " . $count_ops_entries );
 	$clients_form_id                    = 150;
 	$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => 23 );
-	$search_criteria['status'][]        = 'active';
 	$client_entries                     = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
 	SMPLFY_Log::info( $client_entries[0] );
 

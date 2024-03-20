@@ -17,7 +17,6 @@ function bs_create_child_submissions_150_104() {
 	 */
 	$clients_form_id                    = 150;
 	$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => 104 );
-	$search_criteria['status'][]        = 'active';
 	$client_entries_4                   = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
 	SMPLFY_Log::info( $client_entries_4[0] );
 
@@ -25,7 +24,6 @@ function bs_create_child_submissions_150_104() {
 		SMPLFY_Log::info( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
 
 		if ( $ops_entries[ $i ][2] == 104 ) {
-			SMPLFY_Log::info( $client_entries_4[0] );
 			SMPLFY_Log::info( "CLIENT ENTRY USER ID: " . $client_entries_4[0][2] );
 
 			$clientsEmail     = $ops_entries[ $i ]['30'];
@@ -33,8 +31,8 @@ function bs_create_child_submissions_150_104() {
 			$clientUserID     = $ops_entries[ $i ]['2'];
 			$clientFirstName  = $ops_entries[ $i ]['1.3'];
 			$clientLastName   = $ops_entries[ $i ]['1.6'];
-			$transactionDate  = $ops_entries[ $i ]['18'];
 			$organisationName = $ops_entries[ $i ]['17'];
+			$transactionDate  = $ops_entries[ $i ]['18'];
 			$workCompleted    = $ops_entries[ $i ]['70'];
 			$hoursSpent       = $ops_entries[ $i ]['46'];
 
