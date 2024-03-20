@@ -16,7 +16,6 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		$this_entry = GFAPI::get_entry( $entry_id );
 
 		$client_user_id        = rgar( $this_entry, '2' );
-		$minutes_purchased_old =
 
 		$purchased_hours = rgar( $this_entry, '68' );
 		$purchased_hours       = floatval( str_replace( ',', '', $purchased_hours ) );
@@ -93,24 +92,24 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		 * Update THIS entry Form ID 50
 		 * **************************************************************************** */
 		$this_entry_field_id_bal_bfwd_hours = 56;
-		$result                             = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_hours, $hours_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_hours, $hours_balance );
 
 		$this_entry_field_id_bal_new_hours = 57;
-		$result                            = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_hours, $hours_new_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_hours, $hours_new_balance );
 
 		$this_entry_field_id_bal_bfwd_minutes = 16;
-		$result                               = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_minutes, $minutes_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_bfwd_minutes, $minutes_balance );
 
 		$this_entry_field_id_bal_new_minutes = 12;
-		$result                              = GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_minutes, $minutes_new_balance );
+		GFAPI::update_entry_field( $entry_id, $this_entry_field_id_bal_new_minutes, $minutes_new_balance );
 
 		/* ****************************************************************************
 		 * Update entry Form ID 138 entry
 		 * **************************************************************************** */
 		$bs_entry_field_id_balance_hours = 6;
-		$result                          = GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_hours, $hours_new_balance );
+		GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_hours, $hours_new_balance );
 
 		$bs_entry_field_id_balance_minutes = 7;
-		$result                            = GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_minutes, $minutes_new_balance );
+		GFAPI::update_entry_field( $bs_entry['id'], $bs_entry_field_id_balance_minutes, $minutes_new_balance );
 	}
 }

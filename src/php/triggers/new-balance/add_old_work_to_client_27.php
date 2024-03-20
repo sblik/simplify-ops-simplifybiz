@@ -38,7 +38,6 @@ function bs_create_child_submissions_150_27() {
 			$transactionDate  = $ops_entries[ $i ]['18'];
 			$workCompleted    = $ops_entries[ $i ]['70'];
 			$hoursSpent       = $ops_entries[ $i ]['46'];
-			$purchased_hours  = $ops_entries[ $i ]['68'];
 
 			$new_child_entry = array(
 				'form_id'                               => 151, // The ID of the child form.
@@ -57,7 +56,7 @@ function bs_create_child_submissions_150_27() {
 				GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY => 6, // The ID of the Nested Form field on the parent form.
 			);
 
-			$child_entry_id = GFAPI::add_entry( $new_child_entry );
+			GFAPI::add_entry( $new_child_entry );
 
 		}
 

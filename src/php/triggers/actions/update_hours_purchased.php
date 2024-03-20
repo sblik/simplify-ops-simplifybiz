@@ -75,9 +75,6 @@ function bs_purchased_hours_update_hours_balance( $entry, $action ) {
 
 		$number_entries = count( $entries );
 
-		$old_balance = '';
-		$new_balance = '';
-
 		if ( $number_entries != 0 ) {
 			// Get Most Recent Entry
 			$entry       = GFAPI::get_entry( $entries[0]['id'] );

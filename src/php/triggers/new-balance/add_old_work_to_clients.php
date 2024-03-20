@@ -2,7 +2,7 @@
 
 
 /**
- * Setup the endpoint
+ * Set up the endpoint
  * https://ampianhr.sblik.com/wp-json/bliksem/v1/devsimply
  */
 

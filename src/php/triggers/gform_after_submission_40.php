@@ -10,7 +10,6 @@ function copy_project_details_old_to_new( $entry, $form ) {
 	/**
 	 * Get Variables from entry
 	 */
-	global $variables_50_ops_work_completed;
 	$id     = rgar( $entry, 'id' );
 	$action = rgar( $entry, '1' );
 	/*
