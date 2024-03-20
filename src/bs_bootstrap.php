@@ -17,9 +17,7 @@ function require_dependencies() {
 	require_directory( 'php/entities' );
 	require_directory( 'php/classes' );
 	require_directory( 'php/repositories' );
-	require_directory( 'php/css' );
 	require_directory( 'php/helpers' );
 	require_directory( 'php/includes' );
-	require_directory( 'php/js' );
 	require_directory( 'php/triggers' );
 }
