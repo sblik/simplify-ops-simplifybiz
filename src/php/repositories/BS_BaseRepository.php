@@ -56,7 +56,7 @@ abstract class BS_BaseRepository {
 	 * @return T|null
 	 */
 	static function get_one_for_current_user() {
-		return self::get_one( FormFields::CREATED_BY, get_current_user_id() );
+		return self::get_one( 'created_by', get_current_user_id() );
 	}
 
 	/**
@@ -138,7 +138,7 @@ abstract class BS_BaseRepository {
 	 * @return T|null
 	 */
 	static function get_one_for_user( $userId ) {
-		return self::get_one( FormFields::CREATED_BY, $userId );
+		return self::get_one( 'created_by', $userId );
 	}
 
 	/**
@@ -149,7 +149,7 @@ abstract class BS_BaseRepository {
 	 * @return T|null
 	 */
 	static function get_one_by_id( $value ) {
-		return self::get_one( FormFields::ID, $value );
+		return self::get_one( 'id', $value );
 	}
 
 	/**

@@ -18,7 +18,6 @@ function bs_create_child_submissions_150_53() {
 	$clients_form_id                    = 150;
 	$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => 53 );
 	$search_criteria['status'][]        = 'active';
-	$sorting                            = array( 'key' => 'id', 'direction' => 'DESC', 'is_numeric' => true );
 	$client_entries_1                   = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
 	SMPLFY_Log::info( $client_entries_1[0] );
 

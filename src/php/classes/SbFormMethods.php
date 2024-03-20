@@ -49,9 +49,8 @@ class SbFormMethods {
 			'is_numeric' => true,
 		);
 		$paging                                             = array( 'offset' => 0, 'page_size' => 999999999999 );
-		$retrieved_entry_entries                            = GFAPI::get_entries( $retrieved_entry_form_id, $retrieved_entry_search_criteria, $retrieved_entry_sorting, $paging );
 
-		return $retrieved_entry_entries;
+		return GFAPI::get_entries( $retrieved_entry_form_id, $retrieved_entry_search_criteria, $retrieved_entry_sorting, $paging );
 	}
 
 	/**
@@ -60,7 +59,7 @@ class SbFormMethods {
 	 * @param $startDate
 	 * @param $endDate
 	 *
-	 * @return array|\WP_Error
+	 * @return array|WP_Error
 	 */
 	public static function get_entries_between_date_for_user( $formID, $userID, $startDate, $endDate ) {
 		$retrieved_entry_form_id = $formID;
@@ -78,8 +77,7 @@ class SbFormMethods {
 			'is_numeric' => true,
 		);
 		$paging                                             = array( 'offset' => 0, 'page_size' => 999999999999 );
-		$retrieved_entry_entries                            = GFAPI::get_entries( $retrieved_entry_form_id, $retrieved_entry_search_criteria, $retrieved_entry_sorting, $paging );
 
-		return $retrieved_entry_entries;
+		return GFAPI::get_entries( $retrieved_entry_form_id, $retrieved_entry_search_criteria, $retrieved_entry_sorting, $paging );
 	}
 }

@@ -34,7 +34,7 @@ function bs_purchased_hours_update_hours_balance( $entry, $action ) {
 		}
 
 		// If new client, obtain newly created client user id from user table
-		if ( ! isset( $bs_user_id ) || empty( $bs_user_id ) ) {
+		if ( empty( $bs_user_id ) ) {
 			// Get user id by email
 			$bs_user    = get_user_by( 'email', $bs_hours_purchased_details['client_email_address'] );
 			$bs_user_id = $bs_user->ID;

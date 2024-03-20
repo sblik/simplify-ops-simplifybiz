@@ -94,7 +94,7 @@ class GW_List_Field_As_Choices {
 		return $form;
 	}
 
-	function get_list_choices( $values ) {
+	function get_list_choices( $values ): array {
 
 		$choices = array();
 
@@ -110,7 +110,7 @@ class GW_List_Field_As_Choices {
 
 		}
 
-		if ( $this->_args['sort'] == true ) {
+		if ( $this->_args['sort'] ) {
 			usort( $choices, function ( $a, $b ) {
 				return strnatcasecmp( $a['text'], $b['text'] );
 			} );
@@ -141,7 +141,7 @@ class GW_List_Field_As_Choices {
 		return $template;
 	}
 
-	function is_applicable_field( $field ) {
+	function is_applicable_field( $field ): bool {
 
 		$is_choice_field     = is_array( rgar( $field, 'choices' ) );
 		$is_registered_field = in_array( $field['id'], $this->_args['choice_field_ids'] );

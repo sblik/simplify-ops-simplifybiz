@@ -28,6 +28,8 @@ function update_hours_worked_dev_rate( $entry, $form ) {
  */
 function get_work_submission_entities( UpdateHoursWorkedDevEntity $updateDevRate ): array {
 	$employeesWorkSubmissionsEntries = SbFormMethods::get_entries_between_date_for_user( 50, $updateDevRate->employeeUserID, $updateDevRate->queryPeriodFrom, $updateDevRate->queryPeriodTo );
+	$employeesWorkSubmissions = array();
+
 	foreach ( $employeesWorkSubmissionsEntries as $employeeEntry ) {
 		$employeesWorkSubmissions[] = new WorkCompletedReportEntity( $employeeEntry );
 	}
