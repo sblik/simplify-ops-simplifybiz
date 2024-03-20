@@ -10,12 +10,12 @@ add_action( 'profile_update', 'sb_user_updated', 10, 3 );
 
 function sb_user_updated( $user_id, $old_user_data, $userdata ) {
 	// Continue if User Role == sendupdates
-//    BS_Log::info('User Updated');
-//    BS_Log::info('User ID: ' . $user_id);
-//    BS_Log::info('Old User Data:');
-//    BS_Log::info($old_user_data);
-	BS_Log::info( 'User Data:' );
-	BS_Log::info( $userdata );
+//    SMPLFY_Loginfo('User Updated');
+//    SMPLFY_Loginfo('User ID: ' . $user_id);
+//    SMPLFY_Loginfo('Old User Data:');
+//    SMPLFY_Loginfo($old_user_data);
+	SMPLFY_Loginfo( 'User Data:' );
+	SMPLFY_Loginfo( $userdata );
 
 	$user_roles = $userdata['role'];
 

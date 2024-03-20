@@ -1,15 +1,10 @@
 <?php
 
-
 function bootstrap_ops_simplify_plugin() {
 	require_dependencies();
 }
 
-
 function require_dependencies() {
-
-	// TODO: move require statements closer to where they are used
-
 	require_file( 'php/includes/enqueue_scripts.php' );
 	require_file( 'php/repositories/BS_BaseRepository.php' );
 	require_file( 'php/entities/BS_BaseEntity.php' );

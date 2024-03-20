@@ -10,8 +10,8 @@ function bs_update_customer_closing_balance_2( $step_id, $entry_id, $form_id, $s
 	// After Gravityflow Approval Step ID 52
 	if ( $step_id == '52' ) {
 
-		BS_Log::info( "STATUS: " );
-		BS_Log::info( $status );
+		SMPLFY_Loginfo( "STATUS: " );
+		SMPLFY_Loginfo( $status );
 		if ( $status == 'approved' ) {
 			/* ********************************************************************************
 			 * Get THIS entry
@@ -32,7 +32,7 @@ function bs_update_customer_closing_balance_2( $step_id, $entry_id, $form_id, $s
 			$consumed_minutes = rgar( $this_entry, '66' );
 			$consumed_minutes = intval( str_replace( ',', '', $consumed_minutes ) );
 
-			BS_Log::info( 'Client User ID: ' . $client_user_id );
+			SMPLFY_Loginfo( 'Client User ID: ' . $client_user_id );
 
 			/* ********************************************************************************
 			 * Get current balances from Form ID 138, 'UTILITY: Reset / Track Customer Balance'
@@ -72,7 +72,7 @@ function bs_update_customer_closing_balance_2( $step_id, $entry_id, $form_id, $s
 		} elseif ( $status == 'rejected' ) {
 			$this_entry = GFAPI::get_entry( $entry_id );
 
-			BS_Log::info( "IN STATUS REJECTED" );
+			SMPLFY_Loginfo( "IN STATUS REJECTED" );
 			$client_user_id = rgar( $this_entry, '2' );
 			//Get client's organisation entry
 			$clients_form_id                    = 150;
