@@ -30,7 +30,7 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		$consumed_minutes = rgar( $this_entry, '66' );
 		$consumed_minutes = intval( str_replace( ',', '', $consumed_minutes ) );
 
-		SMPLFY_Loginfo( 'Client User ID: ' . $client_user_id );
+		SMPLFY_Log::info( 'Client User ID: ' . $client_user_id );
 
 		/* ********************************************************************************
 		 * Get current balances from Form ID 138, 'UTILITY: Reset / Track Customer Balance'
@@ -50,15 +50,15 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		);
 
 		$bs_entries = GFAPI::get_entries( $bs_form_id, $bs_search_criteria );
-		SMPLFY_Loginfo( 'Entries' );
-		SMPLFY_Loginfo( $bs_entries );
+		SMPLFY_Log::info( 'Entries' );
+		SMPLFY_Log::info( $bs_entries );
 
 		$number_entries = count( $bs_entries );
-		SMPLFY_Loginfo( 'Number of Entries: ' . $number_entries );
+		SMPLFY_Log::info( 'Number of Entries: ' . $number_entries );
 
 		$bs_entry = $bs_entries[0];
-		SMPLFY_Loginfo( 'Entry' );
-		SMPLFY_Loginfo( $bs_entry );
+		SMPLFY_Log::info( 'Entry' );
+		SMPLFY_Log::info( $bs_entry );
 
 		$hours_balance = $bs_entry[6];
 		$hours_balance = floatval( str_replace( ',', '', $hours_balance ) );
@@ -76,18 +76,18 @@ function bs_update_customer_closing_balance_( $step_id, $entry_id, $form_id, $st
 		 * OUTPUT HOURS to log for testing
 		 * **************************************************************************** */
 
-		SMPLFY_Loginfo( 'Hours Balance: ' . $hours_balance );
-		SMPLFY_Loginfo( 'Purchased (Hours): ' . $purchased_hours );
-		SMPLFY_Loginfo( 'Consumed (Hours): ' . $consumed_hours );
-		SMPLFY_Loginfo( 'New Balance (Hours)' . $hours_new_balance );
+		SMPLFY_Log::info( 'Hours Balance: ' . $hours_balance );
+		SMPLFY_Log::info( 'Purchased (Hours): ' . $purchased_hours );
+		SMPLFY_Log::info( 'Consumed (Hours): ' . $consumed_hours );
+		SMPLFY_Log::info( 'New Balance (Hours)' . $hours_new_balance );
 
 		/* ****************************************************************************
 		 * OUTPUT MINUTES to log for testing
 		 * **************************************************************************** */
-		SMPLFY_Loginfo( 'Minutes Balance: ' . $minutes_balance );
-		SMPLFY_Loginfo( 'Purchased (Minutes): ' . $purchased_minutes );
-		SMPLFY_Loginfo( 'Consumed (Minutes): ' . $consumed_minutes );
-		SMPLFY_Loginfo( 'New Balance (Minutes)' . $minutes_new_balance );
+		SMPLFY_Log::info( 'Minutes Balance: ' . $minutes_balance );
+		SMPLFY_Log::info( 'Purchased (Minutes): ' . $purchased_minutes );
+		SMPLFY_Log::info( 'Consumed (Minutes): ' . $consumed_minutes );
+		SMPLFY_Log::info( 'New Balance (Minutes)' . $minutes_new_balance );
 
 		/* ****************************************************************************
 		 * Update THIS entry Form ID 50

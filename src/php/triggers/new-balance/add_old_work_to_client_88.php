@@ -1,7 +1,7 @@
 <?php
 
 function bs_create_child_submissions_150_88() {
-	SMPLFY_Loginfo( "FUNCTION 88 TRIGGERED" );
+	SMPLFY_Log::info( "FUNCTION 88 TRIGGERED" );
 	$ops_form_id                        = 50;
 	$search_criteria['field_filters'][] = array( 'key' => null, 'value' => null );
 	$search_criteria['status'][]        = 'active';
@@ -11,7 +11,7 @@ function bs_create_child_submissions_150_88() {
 
 	$count_ops_entries = count( $ops_entries );
 
-	SMPLFY_Loginfo( "COUNT OPS ENTRIES: " . $count_ops_entries );
+	SMPLFY_Log::info( "COUNT OPS ENTRIES: " . $count_ops_entries );
 	/***
 	 *  CLIENT 88
 	 */
@@ -20,14 +20,14 @@ function bs_create_child_submissions_150_88() {
 	$search_criteria['status'][]        = 'active';
 	$sorting                            = array( 'key' => 'id', 'direction' => 'DESC', 'is_numeric' => true );
 	$client_entries_3                   = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
-	SMPLFY_Loginfo( $client_entries_3[0] );
+	SMPLFY_Log::info( $client_entries_3[0] );
 
 	for ( $i = 0; $i < $count_ops_entries; $i ++ ) {
-		SMPLFY_Loginfo( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
+		SMPLFY_Log::info( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
 
 		if ( $ops_entries[ $i ][2] == 88 ) {
-			SMPLFY_Loginfo( $client_entries_3[0] );
-			SMPLFY_Loginfo( "CLIENT ENTRY USER ID: " . $client_entries_3[0][2] );
+			SMPLFY_Log::info( $client_entries_3[0] );
+			SMPLFY_Log::info( "CLIENT ENTRY USER ID: " . $client_entries_3[0][2] );
 
 
 			$clientsEmail     = $ops_entries[ $i ]['30'];
