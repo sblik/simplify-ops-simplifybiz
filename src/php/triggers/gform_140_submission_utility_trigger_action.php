@@ -11,8 +11,10 @@ function sb_gform_after_submission_140( $entry, $form ) {
 	/**
 	 * Get Variables from entry
 	 */
-	global $variables_140_util_trigger_actions;
-	include( 'get-entry-variables/variables_form_id_140_utilities_trigger_action.php' );
+	$variables_140_util_trigger_actions = array(
+		"id"     => rgar( $entry, 'id' ),
+		"action" => rgar( $entry, '1' ),
+	);
 
 	SMPLFY_Loginfo( '$variables_140_util_trigger_actions: ' );
 	SMPLFY_Loginfo( $variables_140_util_trigger_actions );
