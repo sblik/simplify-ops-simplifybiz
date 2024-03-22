@@ -7,14 +7,21 @@ class UpdateHoursWorked {
 		$this->workCompletedReportsRepository = $workCompletedReportsRepository;
 	}
 
-	function update_dev_rate( $entry, $form ) {
+	function update_dev_rate( $entry ) {
 		$updateDevRate = new UpdateHoursWorkedDevEntity( $entry );
 		$newDevRate    = $updateDevRate->devRate;
 		$userID        = $updateDevRate->employeeUserID;
 
 		SMPLFY_Log::info( "Update dev rate", $updateDevRate );
 
-		$employeesWorkSubmissions = $this->get_work_submission_entities( $updateDevRate );
+		$employeesWorkSubmissions = $this->workCompletedReportsRepository->get_for_user_between_dates(
+			$updateDevRate->employeeUserID,
+			$updateDevRate->queryPeriodFrom,
+			$updateDevRate->queryPeriodTo
+		);
+
+		$count = count( $employeesWorkSubmissions );
+		SMPLFY_Log::info( "Updating $count historical submissions to use rate $updateDevRate->devRate for user $userID between $updateDevRate->queryPeriodFrom and $updateDevRate->queryPeriodTo" );
 
 		if ( $updateDevRate->updateDevRateMetaYN == 'Yes' ) {
 			update_user_meta( $userID, 'devrate', $newDevRate );
@@ -26,23 +33,5 @@ class UpdateHoursWorked {
 
 			$this->workCompletedReportsRepository->update( $employeeWorkSubmission );
 		}
-
-	}
-
-	/**
-	 * @param  UpdateHoursWorkedDevEntity  $updateDevRate
-	 *
-	 * @return WorkCompletedReportEntity[]
-	 */
-	private function get_work_submission_entities( UpdateHoursWorkedDevEntity $updateDevRate ): array {
-		// TODO: move this to repository
-		$employeesWorkSubmissionsEntries = SbFormMethods::get_entries_between_date_for_user( 50, $updateDevRate->employeeUserID, $updateDevRate->queryPeriodFrom, $updateDevRate->queryPeriodTo );
-		$employeesWorkSubmissions        = array();
-
-		foreach ( $employeesWorkSubmissionsEntries as $employeeEntry ) {
-			$employeesWorkSubmissions[] = new WorkCompletedReportEntity( $employeeEntry );
-		}
-
-		return $employeesWorkSubmissions;
 	}
 }
