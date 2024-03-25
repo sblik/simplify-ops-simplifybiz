@@ -12,7 +12,8 @@ class ClientBalancesEntity extends SMPLFY_BaseEntity {
 
 	protected function get_property_map(): array {
 		return array(
-			'clientUserId'     => '3',
+			'clientUserId'          => '3',
+			'balanceAdjustmentsKey' => '6',
 		);
 	}
 }

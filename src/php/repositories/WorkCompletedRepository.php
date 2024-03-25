@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * @method static WorkCompletedEntity|null get_one( array $filters )
  * @method static WorkCompletedEntity|null get_one_for_current_user()
@@ -13,5 +14,16 @@ class WorkCompletedRepository extends SMPLFY_BaseRepository {
 		$this->formId     = 50;
 		$this->entityType = WorkCompletedEntity::class;
 		parent::__construct( $gravityFormsApi );
+	}
+
+	/**
+	 * @param $userId
+	 * @param $startDate
+	 * @param $endDate
+	 *
+	 * @return UpdateHoursWorkedDevEntity[]
+	 */
+	public function get_for_user_between_dates( $userId, $startDate, $endDate ): array {
+		return $this->get_all_between( $startDate, $endDate, [ 'created_by' => $userId, ] );
 	}
 }

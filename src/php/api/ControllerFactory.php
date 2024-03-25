@@ -2,6 +2,16 @@
 
 class ControllerFactory {
 	public array $controllers;
+	private UpdateClientBalancesHandler $updateClientBalancesHandler;
+
+	/**
+	 * @param  UpdateClientBalancesHandler  $updateClientBalancesHandler
+	 */
+	public function __construct( UpdateClientBalancesHandler $updateClientBalancesHandler ) {
+		$this->updateClientBalancesHandler = $updateClientBalancesHandler;
+
+		add_action( 'rest_api_init', [ $this, 'init' ] );
+	}
 
 	/**
 	 * Initialize all the controllers and register their routes
@@ -10,7 +20,7 @@ class ControllerFactory {
 	 */
 	public function init() {
 		$this->controllers = [
-			new ClientBalancesController(),
+			new ClientBalancesController( $this->updateClientBalancesHandler ),
 		];
 
 		foreach ( $this->controllers as $controller ) {
@@ -19,4 +29,3 @@ class ControllerFactory {
 	}
 }
 
-add_action( 'rest_api_init', [ new ControllerFactory(), 'init' ] );

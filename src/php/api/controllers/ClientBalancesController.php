@@ -1,8 +1,14 @@
 <?php
 
 class ClientBalancesController extends BaseController {
-	public function __construct() {
-		$this->controllerNamespace = 'bliksem/v1';
+	private UpdateClientBalancesHandler $updateClientBalancesHandler;
+
+	public function __construct(
+		UpdateClientBalancesHandler $updateClientBalancesHandler
+	) {
+		$this->controllerNamespace         = 'bliksem/v1';
+
+		$this->updateClientBalancesHandler = $updateClientBalancesHandler;
 	}
 
 	/**
@@ -19,8 +25,8 @@ class ClientBalancesController extends BaseController {
 	 * @throws Exception
 	 */
 	public function update_client_balances( WP_REST_Request $request ) {
-		SMPLFY_Log::info( "ClientBalancesController: Received request to update client balances", $request );
-		$handler = new UpdateClientBalancesHandler();
-		$handler->handle();
+		SMPLFY_Log::info( "ClientBalancesController: Received request to create client balances adjustments", $request );
+
+		$this->updateClientBalancesHandler->handle();
 	}
 }

@@ -1,98 +1,72 @@
 <?php
 
 class UpdateClientBalancesHandler {
+	private WorkCompletedRepository $workCompletedRepository;
+	private ClientBalancesRepository $clientBalancesRepository;
+	private ClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository;
+
+	public function __construct(
+		WorkCompletedRepository $workCompletedRepository,
+		ClientBalancesRepository $clientBalancesRepository,
+		ClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository
+	) {
+		$this->workCompletedRepository           = $workCompletedRepository;
+		$this->clientBalancesRepository          = $clientBalancesRepository;
+		$this->clientBalanceAdjustmentRepository = $clientBalanceAdjustmentRepository;
+	}
+
 	function handle() {
-		SMPLFY_Log::info( "FUNCTION TRIGGERED" );
-		$ops_form_id                        = 50;
-		$search_criteria['field_filters'][] = array( 'key' => null, 'value' => null );
-		$search_criteria['status'][]        = 'active';
-		$paging                             = array( 'offset' => 0, 'page_size' => 2000 );
-		$sorting                            = array( 'key' => 'id', 'direction' => 'DESC', 'is_numeric' => true );
-		$ops_entries                        = GFAPI::get_entries( $ops_form_id, $search_criteria, $sorting, $paging );
+		$clientUserIds = [
+			'Divorce Concierge'     => 23,
+			'Plug And Play SM'      => 27,
+			'The Ramage Law Group ' => 64,
+			'RBCA'                  => 88,
+			'Bliksem LLC'           => 104,
+			'AmpianHR'              => 105,
+			'Municipal Solutions'   => 53,
+		];
 
-		$count_ops_entries = count( $ops_entries );
+		foreach ( $clientUserIds as $clientName => $clientUserId ) {
+			$this->create_balance_adjustments_for_client( $clientName, $clientUserId );
+		}
+	}
 
-		SMPLFY_Log::info( "COUNT OPS ENTRIES: " . $count_ops_entries );
-		$clients_form_id                    = 150;
-		$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => 23 );
-		$client_entries                     = GFAPI::get_entries( $clients_form_id, $search_criteria, $sorting );
-		SMPLFY_Log::info( $client_entries[0] );
+	/**
+	 * @param  string  $clientName
+	 * @param  int  $clientUserId
+	 *
+	 * @return void
+	 */
+	public function create_balance_adjustments_for_client( string $clientName, int $clientUserId ): void {
+		SMPLFY_Log::info( "Updating client balances for $clientName" );
 
+		$workCompletedEntries = $this->workCompletedRepository->get_all();
+		$workEntryCount       = count( $workCompletedEntries );
 
-		/***
-		 *  CLIENT 23
-		 */
-		for ( $i = 0; $i < $count_ops_entries; $i ++ ) {
-			SMPLFY_Log::info( "CLIENT USER ID: " . $ops_entries[ $i ][2] );
+		SMPLFY_Log::info( "Found $workEntryCount work completed entries for $clientName" );
 
-			if ( $ops_entries[ $i ][2] == 23 ) {
-				SMPLFY_Log::info( $client_entries[0] );
+		$clientBalances = $this->clientBalancesRepository->get_one_by_client_user_id( $clientUserId );
 
-				SMPLFY_Log::info( "CLIENT ENTRY USER ID: " . $client_entries[0][2] );
+		foreach ( $workCompletedEntries as $workCompletedEntry ) {
+			$balanceAdjustment                   = new ClientBalanceAdjustmentEntity();
+			$balanceAdjustment->clientEmail      = $workCompletedEntry->clientEmail;
+			$balanceAdjustment->clientUserId     = $workCompletedEntry->clientUserId;
+			$balanceAdjustment->clientFirstName  = $workCompletedEntry->clientFirstName;
+			$balanceAdjustment->clientLastName   = $workCompletedEntry->clientLastName;
+			$balanceAdjustment->organisationName = $workCompletedEntry->organisationName;
+			$balanceAdjustment->transactionDate  = $workCompletedEntry->transactionDate;
+			$balanceAdjustment->requestSummary   = $workCompletedEntry->requestSummary;
+			$balanceAdjustment->workCompleted    = $workCompletedEntry->workCompleted;
+			$balanceAdjustment->hoursSpent       = $workCompletedEntry->hoursSpent;
+			$balanceAdjustment->parentKey        = $clientBalances->id;
 
+			$addResult = $this->clientBalanceAdjustmentRepository->add( $balanceAdjustment );
 
-				$clientsEmail     = $ops_entries[ $i ]['30'];
-				$requestSummary   = $ops_entries[ $i ]['39'];
-				$clientUserID     = $ops_entries[ $i ]['2'];
-				$clientFirstName  = $ops_entries[ $i ]['1.3'];
-				$clientLastName   = $ops_entries[ $i ]['1.6'];
-				$transactionDate  = $ops_entries[ $i ]['18'];
-				$organisationName = $ops_entries[ $i ]['17'];
-				$workCompleted    = $ops_entries[ $i ]['70'];
-				$hoursSpent       = $ops_entries[ $i ]['46'];
-				$purchased_hours  = $ops_entries[ $i ]['68'];
-
-				$new_child_entry = array(
-					'form_id'                               => 151, // The ID of the child form.
-					'created_by'                            => wp_get_current_user(),
-					'1'                                     => $clientsEmail,
-					'2'                                     => $clientUserID,
-					'3.3'                                   => $clientFirstName,
-					'3.6'                                   => $clientLastName,
-					'4'                                     => $organisationName,
-					'5'                                     => $transactionDate,
-					'6'                                     => $requestSummary,
-					'7'                                     => $workCompleted,
-					'8'                                     => $hoursSpent,
-					GPNF_Entry::ENTRY_PARENT_KEY            => $client_entries[0]['id'], // The ID of the parent entry.
-					GPNF_Entry::ENTRY_PARENT_FORM_KEY       => 150, // The ID of the parent form.
-					GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY => 6, // The ID of the Nested Form field on the parent form.
-				);
-
-				$child_entry_id = GFAPI::add_entry( $new_child_entry );
+			if ( $addResult instanceof WP_Error ) {
+				SMPLFY_Log::error( "Failed to add balance adjustment for $clientName.", $addResult->errors );
 			}
 		}
-		/***
-		 *  CLIENT 27
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_27.php';
-		bs_create_child_submissions_150_27();
-		/***
-		 *  CLIENT 64
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_64.php';
-		bs_create_child_submissions_150_64();
-		/***
-		 *  CLIENT 88
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_88.php';
-		bs_create_child_submissions_150_88();
-		/***
-		 *  CLIENT 104
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_104.php';
-		bs_create_child_submissions_150_104();
-		/***
-		 *  CLIENT 105
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_105.php';
-		bs_create_child_submissions_150_105();
-		/***
-		 *  CLIENT 53
-		 */
-		require BS_NAME_PLUGIN_DIR . 'includes/new-balance/add_old_work_to_client_53.php';
-		bs_create_child_submissions_150_53();
 
-
+		SMPLFY_Log::info( "Finished processing balance adjustments for $clientName" );
 	}
 }

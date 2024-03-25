@@ -15,7 +15,9 @@
 class ClientBalanceAdjustmentEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
-		$this->formId = 151;
+		$this->formId             = 151;
+		$this->parentFormKey      = 150;
+		$this->nestedFormFieldKey = ClientBalancesEntity::get_field_id( 'balanceAdjustmentsKey' );
 	}
 
 	protected function get_property_map(): array {

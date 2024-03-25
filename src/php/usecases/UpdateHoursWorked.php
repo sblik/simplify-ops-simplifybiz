@@ -1,9 +1,9 @@
 <?php
 
 class UpdateHoursWorked {
-	private WorkCompletedReportsRepository $workCompletedReportsRepository;
+	private WorkCompletedRepository $workCompletedReportsRepository;
 
-	public function __construct( WorkCompletedReportsRepository $workCompletedReportsRepository ) {
+	public function __construct( WorkCompletedRepository $workCompletedReportsRepository ) {
 		$this->workCompletedReportsRepository = $workCompletedReportsRepository;
 	}
 
@@ -28,7 +28,7 @@ class UpdateHoursWorked {
 		}
 
 		foreach ( $employeesWorkSubmissions as $employeeWorkSubmission ) {
-			$employeeWorkSubmission->consumedHours = $employeeWorkSubmission->numberOfHoursWorked * $newDevRate;
+			$employeeWorkSubmission->hoursSpent = $employeeWorkSubmission->numberOfHoursWorked * $newDevRate;
 			$employeeWorkSubmission->devRate       = $newDevRate;
 
 			$this->workCompletedReportsRepository->update( $employeeWorkSubmission );

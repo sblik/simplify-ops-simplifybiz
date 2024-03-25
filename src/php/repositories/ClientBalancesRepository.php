@@ -14,4 +14,13 @@ class ClientBalancesRepository extends SMPLFY_BaseRepository {
 		$this->entityType = ClientBalancesEntity::class;
 		parent::__construct( $gravityFormsApi );
 	}
+
+	/**
+	 * @param  string  $clientUserId
+	 *
+	 * @return ClientBalancesEntity|null
+	 */
+	public function get_one_by_client_user_id( string $clientUserId ): ?ClientBalancesEntity {
+		return $this->get_one( [ ClientBalancesEntity::get_field_id( 'clientUserId' ) => $clientUserId ] );
+	}
 }
