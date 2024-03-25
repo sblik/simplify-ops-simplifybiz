@@ -18,9 +18,12 @@ function require_dependencies() {
 		$require->directory( 'php/includes' );
 		$require->directory( 'php/triggers' );
 		$require->directory( 'php/usecases' );
+		$require->directory( 'php/api/handlers' );
+		$require->directory( 'php/api/controllers' );
 		$require->directory( 'php/adapters' );
 
 		$require->file( 'php/DependencyFactory.php' );
+		$require->file( 'php/api/ControllerFactory.php' );
 
 	} catch ( Exception $e ) {
 		error_log( $e->getMessage() );
