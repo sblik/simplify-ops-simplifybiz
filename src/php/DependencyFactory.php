@@ -19,13 +19,18 @@ class DependencyFactory {
 		$clientBalanceAdjustmentRepository = new ClientBalanceAdjustmentRepository( $gravityFormsWrapper );
 
 		// Use cases
-		$updateHoursWorked = new UpdateHoursWorked( $workCompletedRepository );
+		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository );
+		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $clientBalancesRepository );
 
 		// Handlers
 		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalancesRepository, $clientBalanceAdjustmentRepository );
 
+		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked );
+		new GravityFlowAdapter( $handleApprovalOnWorkCompleted );
+		new WordPressAdapter();
 
+		// Api
 		new ControllerFactory( $updateClientBalancesHandler );
 	}
 }

@@ -12,6 +12,7 @@ function require_dependencies() {
 	try {
 		$require->file( 'php/includes/enqueue_scripts.php' );
 
+		$require->directory( 'php/utilities' );
 		$require->directory( 'php/entities' );
 		$require->directory( 'php/repositories' );
 		$require->directory( 'php/helpers' );

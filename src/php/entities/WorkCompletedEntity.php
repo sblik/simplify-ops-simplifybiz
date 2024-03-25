@@ -13,6 +13,8 @@
  * @property $hoursPurchased
  * @property $numberOfHoursWorked
  * @property $devRate
+ * @property $fiftySix
+ * @property $fiftySeven
  */
 class WorkCompletedEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -34,6 +36,8 @@ class WorkCompletedEntity extends SMPLFY_BaseEntity {
 			'hoursPurchased'      => '68',
 			'numberOfHoursWorked' => '107',
 			'devRate'             => '109',
+			'fiftySix'            => '56',
+			'fiftySeven'          => '57',
 		);
 	}
 }
