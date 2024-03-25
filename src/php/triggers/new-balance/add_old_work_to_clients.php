@@ -74,30 +74,7 @@ function bs_create_child_submissions_150() {
 			);
 
 			$child_entry_id = GFAPI::add_entry( $new_child_entry );
-
-
-			// $clientsEmail = $ops_entries[$i]['30'];
-			// $requestSummary = $ops_entries[$i]['39'];
-			// $clientUserID = $ops_entries[$i]['2'];
-			// $clientFirstName = $ops_entries[$i]['1.3'];
-			// $clientLastName = $ops_entries[$i]['1.6'];
-			// $organisationName = $ops_entries[$i]['17'];
-			// $workCompleted = $ops_entries[$i]['70'];
-			// $hoursSpent = $ops_entries[$i]['46'];
-			// $purchased_hours = $ops_entries[$i]['68'];
-
-			// $ops_entries[$i][GPNF_Entry::ENTRY_PARENT_KEY] = $client_entries[0]['id']; // The ID of the parent entry.
-			// $ops_entries[$i][GPNF_Entry::ENTRY_PARENT_FORM_KEY] = 150; // The ID of the parent form.
-			// $ops_entries[$i][GPNF_Entry::ENTRY_NESTED_FORM_FIELD_KEY] = 6; // The ID of the Nested Form field on the parent form.
-
-			//     SMPLFY_Log::info("OPS ENTRY AFTER ASSIGNING: ");
-			//     SMPLFY_Log::info($ops_entries[$i]);
-			//     $child_entry_id = GFAPI::update_entry( $ops_entries[$i] );
-
-
 		}
-
-
 	}
 	/***
 	 *  CLIENT 27

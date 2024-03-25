@@ -32,7 +32,7 @@ function bs_update_customer_closing_balance_2( $step_id, $entry_id, $form_id, $s
 			 * Get current balances from Form ID 138, 'UTILITY: Reset / Track Customer Balance'
 			 * ******************************************************************************** */
 
-//Get client's organisation entry
+			//Get client's organisation entry
 			$clients_form_id                    = 150;
 			$search_criteria['field_filters'][] = array( 'key' => '3', 'value' => $client_user_id );
 			$search_criteria['status'][]        = 'active';
@@ -88,9 +88,6 @@ function bs_update_customer_closing_balance_2( $step_id, $entry_id, $form_id, $s
 
 			$bs_entry_field_id_balance_hours = 8;
 			GFAPI::update_entry_field( $client_entries[0]['id'], $bs_entry_field_id_balance_hours, $hours_new_balance );
-
-
 		}
-
 	}
 }

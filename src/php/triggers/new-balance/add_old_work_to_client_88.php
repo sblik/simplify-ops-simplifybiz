@@ -54,10 +54,6 @@ function bs_create_child_submissions_150_88() {
 			);
 
 			GFAPI::add_entry( $new_child_entry );
-
 		}
-
-
 	}
-
 }
