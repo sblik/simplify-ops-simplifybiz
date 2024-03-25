@@ -3,6 +3,11 @@
 class ControllerFactory {
 	public array $controllers;
 
+	/**
+	 * Initialize all the controllers and register their routes
+	 *
+	 * @return void
+	 */
 	public function init() {
 		$this->controllers = [
 			new ClientBalancesController(),

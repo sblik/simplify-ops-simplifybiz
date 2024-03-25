@@ -8,6 +8,8 @@ class RestRequestHandler {
 	}
 
 	/**
+	 * This is needed to ensure that we don't return a 200 response when our API handling throws an exception.
+	 *
 	 * @param  WP_REST_Request  $request
 	 *
 	 * @return mixed|WP_Error

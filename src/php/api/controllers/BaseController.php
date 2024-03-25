@@ -5,6 +5,16 @@ abstract class BaseController {
 
 	abstract function register_routes();
 
+	/**
+	 * Register a REST route with the WordPress REST API
+	 * Wrap the callback in a handler to catch exceptions
+	 *
+	 * @param  string  $route
+	 * @param  string  $method
+	 * @param  callable  $callback
+	 *
+	 * @return void
+	 */
 	function register_rest_route( string $route, string $method, callable $callback ) {
 
 		register_rest_route( $this->controllerNamespace, $route, array(
