@@ -1,8 +1,7 @@
 <?php
 
 /**
- *
- * @property $employeeUserID
+ * @property $clientUserId
  * @property $clientEmail
  * @property $requestSummary
  * @property $clientFirstName
