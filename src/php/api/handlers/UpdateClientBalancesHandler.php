@@ -63,7 +63,10 @@ class UpdateClientBalancesHandler {
 			$addResult = $this->clientBalanceAdjustmentRepository->add( $balanceAdjustment );
 
 			if ( $addResult instanceof WP_Error ) {
-				SMPLFY_Log::error( "Failed to add balance adjustment for $clientName.", $addResult->errors );
+				SMPLFY_Log::error( "Failed to add balance adjustment for $clientName.", [
+					'errors'              => $addResult->errors,
+					'work_complete_entry' => $workCompletedEntry,
+				] );
 			}
 		}
 

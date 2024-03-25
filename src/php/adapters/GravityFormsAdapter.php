@@ -6,9 +6,11 @@
 class GravityFormsAdapter {
 
 	private UpdateHoursWorked $updateHoursWorked;
+	private AddUserContactMethod $addUserContactMethod;
 
 	public function __construct( UpdateHoursWorked $updateHoursWorked ) {
-		$this->updateHoursWorked = $updateHoursWorked;
+		$this->updateHoursWorked    = $updateHoursWorked;
+		$this->addUserContactMethod = new AddUserContactMethod();
 
 		$this->register_hooks();
 		$this->register_filters();
@@ -29,5 +31,7 @@ class GravityFormsAdapter {
 	 * @return void
 	 */
 	public function register_filters() {
+		add_filter( 'user_contactmethods', [ $this->addUserContactMethod, 'add_organization' ], 10, 2 );
+
 	}
 }

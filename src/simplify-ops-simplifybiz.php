@@ -22,4 +22,3 @@ define( 'BS_NAME_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 require_once BS_NAME_PLUGIN_DIR . 'bs_bootstrap.php';
 
 bootstrap_ops_simplify_plugin();
-
