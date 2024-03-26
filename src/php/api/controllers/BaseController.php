@@ -17,6 +17,7 @@ abstract class BaseController {
 	 */
 	function register_rest_route( string $route, string $method, callable $callback ) {
 
+		// TODO: add authorization using permission_callback option
 		register_rest_route( $this->controllerNamespace, $route, array(
 			'methods'  => $method,
 			'callback' => function ( $request ) use ( $callback ) {
