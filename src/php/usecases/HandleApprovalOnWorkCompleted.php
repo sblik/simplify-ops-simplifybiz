@@ -36,7 +36,7 @@ class HandleApprovalOnWorkCompleted {
 	 */
 	private function update_admin_client_remaining_balance( $status, WorkCompletedEntity $workCompletedEntry ): void {
 		// TODO: why are we not updating the balance adjustments (child entries) here too? (form 151)
-		$organizationName   = $workCompletedEntry->organisationName;
+		$organizationName = $workCompletedEntry->organisationName;
 
 		SMPLFY_Log::info( "Updating client balances after $status work completed for $organizationName ($workCompletedEntry->clientUserId): ", $workCompletedEntry );
 
@@ -121,6 +121,6 @@ class HandleApprovalOnWorkCompleted {
 		$clientBalance->hours   = $hoursNewBalance;
 		$this->clientBalanceRepository->update( $clientBalance );
 
-		SMPLFY_Log::info( "Closing balance updated successfully for " );
+		SMPLFY_Log::info( "Closing balance updated successfully for $workCompletedEntry->organisationName and work completed id $workCompletedEntry->id" );
 	}
 }
