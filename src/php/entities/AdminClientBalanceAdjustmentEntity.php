@@ -12,12 +12,12 @@
  * @property $workCompleted
  * @property $hoursSpent
  */
-class ClientBalanceAdjustmentEntity extends SMPLFY_BaseEntity {
+class AdminClientBalanceAdjustmentEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 		$this->formId             = 151;
 		$this->parentFormKey      = 150;
-		$this->nestedFormFieldKey = ClientBalancesEntity::get_field_id( 'balanceAdjustmentsKey' );
+		$this->nestedFormFieldKey = AdminClientBalanceEntity::get_field_id( 'balanceAdjustmentsKey' );
 	}
 
 	protected function get_property_map(): array {

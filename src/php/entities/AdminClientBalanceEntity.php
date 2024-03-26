@@ -7,7 +7,7 @@
  * @property $hoursRemaining
  * @property $hoursRemainingPendingApproval
  */
-class ClientBalancesEntity extends SMPLFY_BaseEntity {
+class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 		$this->formId = 150;

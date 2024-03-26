@@ -2,13 +2,13 @@
 
 class UpdateClientBalancesHandler {
 	private WorkCompletedRepository $workCompletedRepository;
-	private ClientBalancesRepository $clientBalancesRepository;
-	private ClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository;
+	private AdminClientBalanceRepository $clientBalancesRepository;
+	private AdminClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository;
 
 	public function __construct(
 		WorkCompletedRepository $workCompletedRepository,
-		ClientBalancesRepository $clientBalancesRepository,
-		ClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository
+		AdminClientBalanceRepository $clientBalancesRepository,
+		AdminClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository
 	) {
 		$this->workCompletedRepository           = $workCompletedRepository;
 		$this->clientBalancesRepository          = $clientBalancesRepository;
@@ -48,7 +48,7 @@ class UpdateClientBalancesHandler {
 		$clientBalances = $this->clientBalancesRepository->get_one_by_client_user_id( $clientUserId );
 
 		foreach ( $workCompletedEntries as $workCompletedEntry ) {
-			$balanceAdjustment                   = new ClientBalanceAdjustmentEntity();
+			$balanceAdjustment                   = new AdminClientBalanceAdjustmentEntity();
 			$balanceAdjustment->clientEmail      = $workCompletedEntry->clientEmail;
 			$balanceAdjustment->clientUserId     = $workCompletedEntry->clientUserId;
 			$balanceAdjustment->clientFirstName  = $workCompletedEntry->clientFirstName;
