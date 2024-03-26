@@ -5,6 +5,6 @@
  *
  * @return float
  */
-function convertToFloat( $value ): float {
+function convert_to_float( $value ): float {
 	return floatval( str_replace( ',', '', $value ) );
 }

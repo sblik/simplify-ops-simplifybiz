@@ -9,7 +9,11 @@
  * @property $transactionDate
  * @property $organisationName
  * @property $workCompleted
+ * @property $minutesSpent
+ * @property $minutesBroughtForward
  * @property $hoursSpent
+ * @property $minutesPurchased
+ * @property $minutesBalance
  * @property $hoursPurchased
  * @property $numberOfHoursWorked
  * @property $devRate
@@ -24,20 +28,22 @@ class WorkCompletedEntity extends SMPLFY_BaseEntity {
 
 	protected function get_property_map(): array {
 		return array(
-			'clientUserId'        => '2',
-			'clientEmail'         => '30',
-			'requestSummary'      => '39',
-			'clientFirstName'     => '1.3',
-			'clientLastName'      => '1.6',
-			'transactionDate'     => '18',
-			'organisationName'    => '17',
-			'workCompleted'       => '70',
-			'hoursSpent'          => '46',
-			'hoursPurchased'      => '68',
-			'numberOfHoursWorked' => '107',
-			'devRate'             => '109',
-			'fiftySix'            => '56',
-			'fiftySeven'          => '57',
+			'clientUserId'          => '2',
+			'clientEmail'           => '30',
+			'requestSummary'        => '39',
+			'clientFirstName'       => '1.3',
+			'clientLastName'        => '1.6',
+			'minutesBroughtForward' => '16',
+			'minutesBalance'        => '12',
+			'transactionDate'       => '18',
+			'organisationName'      => '17',
+			'workCompleted'         => '70',
+			'hoursPurchased'        => '68',
+			'hoursSpent'            => '46',
+			'minutesPurchased'      => '67',
+			'minutesSpent'          => '66',
+			'numberOfHoursWorked'   => '107',
+			'devRate'               => '109',
 		);
 	}
 }

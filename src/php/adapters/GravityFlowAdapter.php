@@ -19,6 +19,6 @@ class GravityFlowAdapter {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'gravityflow_step_complete', [ $this->handleApprovalOnWorkCompleted, 'handle' ], 10, 4 );
+		add_action( 'gravityflow_step_complete', [ $this->handleApprovalOnWorkCompleted, 'update_client_balances' ], 10, 4 );
 	}
 }
