@@ -15,15 +15,7 @@ class HandleApprovalOnWorkCompleted {
 		$this->clientBalanceRepository       = $clientBalanceRepository;
 	}
 
-	/**
-	 * @param $step_id
-	 * @param $entry_id
-	 * @param $form_id
-	 * @param $status
-	 *
-	 * @return void
-	 */
-	function update_client_balances( $step_id, $entry_id, $form_id, $status ) {
+	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
 		if ( $step_id != '52' ) {
 			return;
 		}
@@ -45,6 +37,9 @@ class HandleApprovalOnWorkCompleted {
 	private function update_admin_client_remaining_balance( $status, WorkCompletedEntity $workCompletedEntry ): void {
 		// TODO: why are we not updating the balance adjustments (child entries) here too? (form 151)
 		$organizationName   = $workCompletedEntry->organisationName;
+
+		SMPLFY_Log::info( "Updating client balances after $status work completed for $organizationName ($workCompletedEntry->clientUserId): ", $workCompletedEntry );
+
 		$adminClientBalance = $this->adminClientBalancesRepository->get_one_by_client_user_id( $workCompletedEntry->clientUserId );
 
 		if ( empty( $adminClientBalance ) ) {
@@ -52,8 +47,6 @@ class HandleApprovalOnWorkCompleted {
 
 			return;
 		}
-
-		SMPLFY_Log::info( "Updating client balances after work completed ($status) for $organizationName ($workCompletedEntry->clientUserId): ", $workCompletedEntry );
 
 		$purchasedHours = convert_to_float( $workCompletedEntry->hoursPurchased );
 
@@ -67,7 +60,7 @@ class HandleApprovalOnWorkCompleted {
 			$adminClientBalance->hoursRemaining = $hoursNewBalance;
 			$this->adminClientBalancesRepository->update( $adminClientBalance );
 
-			SMPLFY_Log::info( "Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
+			SMPLFY_Log::info( "Admin balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
 
 		} elseif ( $status == 'rejected' ) {
 
@@ -79,7 +72,7 @@ class HandleApprovalOnWorkCompleted {
 			$adminClientBalance->hoursRemainingPendingApproval = $hoursNewBalance;
 			$this->adminClientBalancesRepository->update( $adminClientBalance );
 
-			SMPLFY_Log::info( "Number of hours remaining pending approval updated $hoursPending to $hoursNewBalance for $organizationName" );
+			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $hoursNewBalance for $organizationName" );
 		}
 	}
 
@@ -89,10 +82,9 @@ class HandleApprovalOnWorkCompleted {
 	 * @return void
 	 */
 	private function update_client_closing_balance( WorkCompletedEntity $workCompletedEntry ) {
-		// TODO: logging
 		$clientBalance = $this->clientBalanceRepository->get_one_by_client_user_id( $workCompletedEntry->clientUserId );
 
-		if ( empty( $adminClientBalance ) ) {
+		if ( empty( $clientBalance ) ) {
 			SMPLFY_Log::error( "Failed to update client closing balance: No client balance found for client user id: $workCompletedEntry->clientUserId" );
 
 			return;
@@ -110,6 +102,17 @@ class HandleApprovalOnWorkCompleted {
 
 		$minutesNewBalance = $minutesBalance - $minutesConsumed + $minutesPurchased;
 
+		SMPLFY_Log::info( 'Updating client closing balances: ', array(
+			'Hours Balance'       => $hoursBalance,
+			'Hours Purchased'     => $hoursPurchased,
+			'Hours Consumed'      => $hoursConsumed,
+			'Hours New Balance'   => $hoursNewBalance,
+			'Minutes Balance'     => $minutesBalance,
+			'Minutes Purchased'   => $minutesPurchased,
+			'Minutes Consumed'    => $minutesConsumed,
+			'Minutes New Balance' => $minutesNewBalance,
+		) );
+
 		$workCompletedEntry->minutesBroughtForward = $minutesBalance;
 		$workCompletedEntry->minutesBalance        = $minutesNewBalance;
 		$this->workCompletedRepository->update( $workCompletedEntry );
@@ -117,5 +120,7 @@ class HandleApprovalOnWorkCompleted {
 		$clientBalance->minutes = $minutesNewBalance;
 		$clientBalance->hours   = $hoursNewBalance;
 		$this->clientBalanceRepository->update( $clientBalance );
+
+		SMPLFY_Log::info( "Closing balance updated successfully for " );
 	}
 }

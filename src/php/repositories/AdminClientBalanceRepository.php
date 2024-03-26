@@ -21,6 +21,10 @@ class AdminClientBalanceRepository extends SMPLFY_BaseRepository {
 	 * @return AdminClientBalanceEntity|null
 	 */
 	public function get_one_by_client_user_id( string $clientUserId ): ?AdminClientBalanceEntity {
+		if ( empty( $clientUserId ) ) {
+			return null;
+		}
+
 		return $this->get_one( [ AdminClientBalanceEntity::get_field_id( 'clientUserId' ) => $clientUserId ] );
 	}
 }
