@@ -1,18 +1,22 @@
 <?php
 
+/**
+ * Create admin balance adjustments for each client
+ */
+
 class UpdateClientBalancesHandler {
 	private WorkCompletedRepository $workCompletedRepository;
-	private AdminClientBalanceRepository $clientBalancesRepository;
-	private AdminClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository;
+	private AdminClientBalanceRepository $adminClientBalancesRepository;
+	private AdminClientBalanceAdjustmentRepository $adminClientBalanceAdjustmentRepository;
 
 	public function __construct(
 		WorkCompletedRepository $workCompletedRepository,
-		AdminClientBalanceRepository $clientBalancesRepository,
-		AdminClientBalanceAdjustmentRepository $clientBalanceAdjustmentRepository
+		AdminClientBalanceRepository $adminClientBalancesRepository,
+		AdminClientBalanceAdjustmentRepository $adminClientBalanceAdjustmentRepository
 	) {
-		$this->workCompletedRepository           = $workCompletedRepository;
-		$this->clientBalancesRepository          = $clientBalancesRepository;
-		$this->clientBalanceAdjustmentRepository = $clientBalanceAdjustmentRepository;
+		$this->workCompletedRepository                = $workCompletedRepository;
+		$this->adminClientBalancesRepository          = $adminClientBalancesRepository;
+		$this->adminClientBalanceAdjustmentRepository = $adminClientBalanceAdjustmentRepository;
 	}
 
 	function handle() {
@@ -45,7 +49,7 @@ class UpdateClientBalancesHandler {
 
 		SMPLFY_Log::info( "Found $workEntryCount work completed entries for $clientName" );
 
-		$clientBalances = $this->clientBalancesRepository->get_one_by_client_user_id( $clientUserId );
+		$clientBalances = $this->adminClientBalancesRepository->get_one_by_client_user_id( $clientUserId );
 
 		foreach ( $workCompletedEntries as $workCompletedEntry ) {
 			$balanceAdjustment                   = new AdminClientBalanceAdjustmentEntity();
@@ -60,7 +64,7 @@ class UpdateClientBalancesHandler {
 			$balanceAdjustment->hoursSpent       = $workCompletedEntry->hoursSpent;
 			$balanceAdjustment->parentKey        = $clientBalances->id;
 
-			$addResult = $this->clientBalanceAdjustmentRepository->add( $balanceAdjustment );
+			$addResult = $this->adminClientBalanceAdjustmentRepository->add( $balanceAdjustment );
 
 			if ( $addResult instanceof WP_Error ) {
 				SMPLFY_Log::error( "Failed to add balance adjustment for $clientName.", [

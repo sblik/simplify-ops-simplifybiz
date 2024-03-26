@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * When a work completed entry (form 50) is approved or rejected, we need to update the client balances accordingly.
+ */
+
 class HandleApprovalOnWorkCompleted {
 	private WorkCompletedRepository $workCompletedRepository;
 	private AdminClientBalanceRepository $adminClientBalancesRepository;

@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Convert a string number to a float
+ *
  * @param $value
  *
  * @return float

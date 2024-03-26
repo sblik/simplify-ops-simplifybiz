@@ -17,7 +17,6 @@ function require_dependencies() {
 		$require->directory( 'php/repositories' );
 		$require->directory( 'php/helpers' );
 		$require->directory( 'php/includes' );
-		$require->directory( 'php/triggers' );
 		$require->directory( 'php/usecases' );
 		$require->directory( 'php/api/handlers' );
 		$require->directory( 'php/api/controllers' );

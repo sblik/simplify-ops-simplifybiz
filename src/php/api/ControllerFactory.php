@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * A factory class responsible for creating and initializing all API controllers used in the plugin
+ */
 class ControllerFactory {
 	public array $controllers;
 	private UpdateClientBalancesHandler $updateClientBalancesHandler;

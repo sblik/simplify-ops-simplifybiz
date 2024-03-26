@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Manually adjust the work hours for a user when on submitting form 161
+ */
+
 class UpdateHoursWorked {
 	private WorkCompletedRepository $workCompletedReportsRepository;
 
@@ -7,6 +11,11 @@ class UpdateHoursWorked {
 		$this->workCompletedReportsRepository = $workCompletedReportsRepository;
 	}
 
+	/**
+	 * @param $entry
+	 *
+	 * @return void
+	 */
 	function update_dev_rate( $entry ) {
 		$updateDevRate = new UpdateHoursWorkedDevEntity( $entry );
 		$newDevRate    = $updateDevRate->devRate;
@@ -29,7 +38,7 @@ class UpdateHoursWorked {
 
 		foreach ( $employeesWorkSubmissions as $employeeWorkSubmission ) {
 			$employeeWorkSubmission->hoursSpent = $employeeWorkSubmission->numberOfHoursWorked * $newDevRate;
-			$employeeWorkSubmission->devRate       = $newDevRate;
+			$employeeWorkSubmission->devRate    = $newDevRate;
 
 			$this->workCompletedReportsRepository->update( $employeeWorkSubmission );
 		}
