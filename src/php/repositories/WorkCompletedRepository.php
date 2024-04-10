@@ -26,4 +26,35 @@ class WorkCompletedRepository extends SMPLFY_BaseRepository {
 	public function get_for_user_between_dates( $userId, $startDate, $endDate ): array {
 		return $this->get_all_between( $startDate, $endDate, [ 'created_by' => $userId, ] );
 	}
+
+	/**
+	 * @param array $employeesWorkSubmissions
+	 * @param UpdateHoursWorkedDevEntity $updateDevRate
+	 *
+	 * @return array
+	 */
+	public function get_submissions_for_client( array $employeesWorkSubmissions, UpdateHoursWorkedDevEntity $updateDevRate ): array {
+		foreach ( $employeesWorkSubmissions as $workSubmission ) {
+			$clientEmail     = $updateDevRate->clientEmail;
+			$clientWorkIsFor = $workSubmission->clientEmail;
+
+			if ( $clientEmail == $clientWorkIsFor ) {
+				$filteredEmployeesWorkSubmissionsEntries[] = $workSubmission;
+			}
+
+		}
+		BS_Log::info( "FILTERED ARRAY FOR $clientEmail SUBMISSIONS: ", $filteredEmployeesWorkSubmissionsEntries );
+
+		return $filteredEmployeesWorkSubmissionsEntries;
+	}
+
+	public function get_work_submission_entities_if_dev_rate_updated( UpdateHoursWorkedDevEntity $updateDevRate, $queryPeriodFrom, $queryPeriodTo ): array {
+		$employeesWorkSubmissions = $this->get_for_user_between_dates( $updateDevRate->employeeUserID, $queryPeriodFrom, $queryPeriodTo );
+
+		if ( $updateDevRate->updateForClientYN == 'Yes' ) {
+			return $this->get_submissions_for_client( $employeesWorkSubmissions, $updateDevRate );
+		}
+
+		return $employeesWorkSubmissions;
+	}
 }

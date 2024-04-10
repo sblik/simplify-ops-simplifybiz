@@ -23,7 +23,7 @@ class UpdateHoursWorked {
 
 		SMPLFY_Log::info( "Update dev rate", $updateDevRate );
 
-		$employeesWorkSubmissions = $this->workCompletedReportsRepository->get_for_user_between_dates(
+		$employeesWorkSubmissions = $this->workCompletedReportsRepository->get_work_submission_entities_if_dev_rate_updated(
 			$updateDevRate->employeeUserID,
 			$updateDevRate->queryPeriodFrom,
 			$updateDevRate->queryPeriodTo
