@@ -23,10 +23,13 @@ class UpdateHoursWorked {
 
 		SMPLFY_Log::info( "Update dev rate", $updateDevRate );
 
-		$employeesWorkSubmissions = $this->workCompletedReportsRepository->get_work_submission_entities_if_dev_rate_updated(
+		$employeesWorkSubmissions = $this->get_work_completed_entities(
 			$updateDevRate->employeeUserID,
 			$updateDevRate->queryPeriodFrom,
-			$updateDevRate->queryPeriodTo
+			$updateDevRate->queryPeriodTo,
+			$updateDevRate->updateForClientYN,
+			$updateDevRate,
+			$this->workCompletedReportsRepository
 		);
 
 		$count = count( $employeesWorkSubmissions );
@@ -42,5 +45,23 @@ class UpdateHoursWorked {
 
 			$this->workCompletedReportsRepository->update( $employeeWorkSubmission );
 		}
+	}
+
+	/**
+	 * @param $employeeUserID
+	 * @param $queryPeriodFrom
+	 * @param $queryPeriodTo
+	 * @param $updateForClientYN
+	 * @param UpdateHoursWorkedDevEntity $updateDevRate
+	 * @param WorkCompletedRepository $workCompletedRepository
+	 *
+	 * @return UpdateHoursWorkedDevEntity[]|WorkCompletedEntity[]
+	 */
+	function get_work_completed_entities( $employeeUserID, $queryPeriodFrom, $queryPeriodTo, $updateForClientYN, UpdateHoursWorkedDevEntity $updateDevRate, WorkCompletedRepository $workCompletedRepository ): array {
+		if ( $updateForClientYN == 'Yes' ) {
+			return $workCompletedRepository->get_for_user_and_client_between_dates( $employeeUserID, $queryPeriodFrom, $queryPeriodTo, $updateDevRate->clientEmail );
+		}
+
+		return $workCompletedRepository->get_for_user_between_dates( $employeeUserID, $queryPeriodFrom, $queryPeriodTo );
 	}
 }
