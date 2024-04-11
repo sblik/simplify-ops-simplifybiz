@@ -11,19 +11,13 @@ class WorkReportSubmitted {
 
 	function handle( $entry ) {
 		$workCompletedReport = new WorkCompletedEntity( $entry );
-		SMPLFY_Log::info( "WORK COMPLETED REPORT ENTITY: ", $workCompletedReport );
-
 
 		$clientEmailInReport = $workCompletedReport->clientEmail;
-		SMPLFY_Log::info( "CLIENT EMAIL IN REPORT: $clientEmailInReport" );
-		$clientUserId = get_user_by_email( $clientEmailInReport )->ID;
-		SMPLFY_Log::info( "CLIENT USER ID: $clientUserId" );
+		$clientUserId        = get_user_by_email( $clientEmailInReport )->ID;
 
-		$this->store_client_user_id( $workCompletedReport, $clientEmailInReport );
+		$this->store_client_user_id( $workCompletedReport, $clientUserId );
 
 		$clientAdminBalance = $this->adminClientBalanceRepository->get_one( [ AdminClientBalanceEntity::get_field_id( 'clientUserId' ) => $clientUserId ] );
-		SMPLFY_Log::info( "CLIENT ADMIN BALANCE ENTITY: ", $clientAdminBalance );
-
 
 		if ( $clientEmailInReport !== $clientAdminBalance->clientEmail ) {
 			$clientAdminBalance->clientEmail = $clientEmailInReport;
