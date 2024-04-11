@@ -34,46 +34,50 @@ class HandleApprovalOnWorkCompleted {
 
 	/**
 	 * @param $status
-	 * @param  WorkCompletedEntity  $workCompletedEntry
+	 * @param WorkCompletedEntity $workCompletedEntity
 	 *
 	 * @return void
 	 */
-	private function update_admin_client_remaining_balance( $status, WorkCompletedEntity $workCompletedEntry ): void {
+	private function update_admin_client_remaining_balance( $status, WorkCompletedEntity $workCompletedEntity ): void {
 		// TODO: why are we not updating the balance adjustments (child entries) here too? (form 151)
-		$organizationName = $workCompletedEntry->organisationName;
+		$organizationName = $workCompletedEntity->organisationName;
 
-		SMPLFY_Log::info( "Updating client balances after $status work completed for $organizationName ($workCompletedEntry->clientUserId): ", $workCompletedEntry );
+		SMPLFY_Log::info( "Updating client balances after $status work completed for $organizationName ($workCompletedEntity->clientUserId): ", $workCompletedEntity );
 
-		$adminClientBalance = $this->adminClientBalancesRepository->get_one_by_client_user_id( $workCompletedEntry->clientUserId );
+		$adminClientBalance = $this->adminClientBalancesRepository->get_one_by_client_user_id( $workCompletedEntity->clientUserId );
 
 		if ( empty( $adminClientBalance ) ) {
-			SMPLFY_Log::error( "Failed to update client remaining balance: No admin client balance found for client user id: $workCompletedEntry->clientUserId" );
+			SMPLFY_Log::error( "Failed to update client remaining balance: No admin client balance found for client user id: $workCompletedEntity->clientUserId" );
 
 			return;
 		}
 
-		$purchasedHours = convert_to_float( $workCompletedEntry->hoursPurchased );
+		$hoursBalance   = convert_to_float( $adminClientBalance->currentRealBalance );
+		$purchasedHours = convert_to_float( $workCompletedEntity->hoursPurchased );
+		$hoursConsumed  = convert_to_float( $workCompletedEntity->hoursSpent );
+		$hoursPending   = convert_to_float( $adminClientBalance->balancePendingApproval );
 
 		if ( $status == 'approved' ) {
+			if ( $this->is_report_balance_adjustment( $workCompletedEntity ) ) {
+				$hoursNewBalance = $hoursBalance + $purchasedHours;
+			} else {
+				$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
+			}
 
-			$hoursConsumed = convert_to_float( $workCompletedEntry->hoursSpent );
-			$hoursBalance  = convert_to_float( $adminClientBalance->hoursRemaining );
-
-			$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
-
-			$adminClientBalance->hoursRemaining = $hoursNewBalance;
+			$adminClientBalance->currentRealBalance = $hoursNewBalance;
 			$this->adminClientBalancesRepository->update( $adminClientBalance );
 
+			//TODO: Ask Andre if he would prefer only approved work submissions to be added as child entries to form 150
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
 
 		} elseif ( $status == 'rejected' ) {
+			if ( $this->is_report_balance_adjustment( $workCompletedEntity ) ) {
+				$newPendingBalance = $hoursPending - $purchasedHours;
+			} else {
+				$newPendingBalance = $hoursPending + $hoursConsumed;
+			}
 
-			$hoursPending  = convert_to_float( $adminClientBalance->hoursRemainingPendingApproval );
-			$hoursConsumed = convert_to_float( $adminClientBalance->hoursRemaining );
-
-			$hoursNewBalance = $hoursPending + $hoursConsumed + $purchasedHours;
-
-			$adminClientBalance->hoursRemainingPendingApproval = $hoursNewBalance;
+			$adminClientBalance->balancePendingApproval = $newPendingBalance;
 			$this->adminClientBalancesRepository->update( $adminClientBalance );
 
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $hoursNewBalance for $organizationName" );
@@ -81,7 +85,7 @@ class HandleApprovalOnWorkCompleted {
 	}
 
 	/**
-	 * @param  WorkCompletedEntity  $workCompletedEntry
+	 * @param WorkCompletedEntity $workCompletedEntry
 	 *
 	 * @return void
 	 */
@@ -126,5 +130,20 @@ class HandleApprovalOnWorkCompleted {
 		$this->clientBalanceRepository->update( $clientBalance );
 
 		SMPLFY_Log::info( "Closing balance updated successfully for $workCompletedEntry->organisationName and work completed id $workCompletedEntry->id" );
+	}
+
+
+	/**
+	 * @param WorkCompletedEntity $workCompletedReport
+	 *
+	 * @return bool
+	 */
+	//TODO: This is a repeat of a function in WorkReportSubmitted but I don't know the best place to put it to make it reusable
+	public function is_report_balance_adjustment( WorkCompletedEntity $workCompletedReport ): bool {
+		if ( $workCompletedReport->hoursSpent == '' ) {
+			return true;
+		}
+
+		return false;
 	}
 }

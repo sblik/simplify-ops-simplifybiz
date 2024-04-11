@@ -5,8 +5,8 @@
  * @property $clientUserId
  * @property $clientEmail
  * @property $balanceAdjustmentsKey
- * @property $hoursRemaining
- * @property $hoursRemainingPendingApproval
+ * @property $currentRealBalance
+ * @property $balancePendingApproval
  */
 class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -16,11 +16,11 @@ class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
 
 	protected function get_property_map(): array {
 		return array(
-			'clientUserId'                  => '3',
-			'clientEmail'                   => '7',
-			'balanceAdjustmentsKey'         => '6',
-			'remainingBalance'              => '5',
-			'hoursRemainingPendingApproval' => '8',
+			'clientUserId'           => '3',
+			'clientEmail'            => '7',
+			'balanceAdjustmentsKey'  => '6',
+			'remainingBalance'       => '5',
+			'balancePendingApproval' => '8',
 		);
 	}
 }
