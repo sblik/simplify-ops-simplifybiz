@@ -42,6 +42,7 @@ class WorkCompletedEntity extends SMPLFY_BaseEntity {
 			'hoursSpent'            => '46',
 			'minutesPurchased'      => '67',
 			'minutesSpent'          => '66',
+			'reportType'            => '53',
 			'numberOfHoursWorked'   => '107',
 			'devRate'               => '109',
 		);
