@@ -80,7 +80,7 @@ class HandleApprovalOnWorkCompleted {
 			$adminClientBalance->balancePendingApproval = $newPendingBalance;
 			$this->adminClientBalancesRepository->update( $adminClientBalance );
 
-			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $hoursNewBalance for $organizationName" );
+			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );
 		}
 	}
 
