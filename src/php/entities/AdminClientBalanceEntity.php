@@ -19,7 +19,7 @@ class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
 			'clientUserId'           => '3',
 			'clientEmail'            => '7',
 			'balanceAdjustmentsKey'  => '6',
-			'remainingBalance'       => '5',
+			'currentRealBalance'     => '5',
 			'balancePendingApproval' => '8',
 		);
 	}
