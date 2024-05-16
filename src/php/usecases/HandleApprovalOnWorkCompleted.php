@@ -20,7 +20,8 @@ class HandleApprovalOnWorkCompleted {
 	}
 
 	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
-		if ( $step_id != '52' ) {
+		SMPLFY_Log::info( "UPDATE CLIENT BALANCES CALLED ------" );
+		if ( $step_id != '128' ) {
 			return;
 		}
 
