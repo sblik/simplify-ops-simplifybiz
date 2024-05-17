@@ -5,8 +5,8 @@
  * @property $clientUserId
  * @property $clientEmail
  * @property $balanceAdjustmentsKey
- * @property $currentRealBalance
- * @property $balancePendingApproval
+ * @property $currentBalance
+ * @property $pendingBalance
  */
 class ClientBalanceEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -14,13 +14,12 @@ class ClientBalanceEntity extends SMPLFY_BaseEntity {
 		$this->formId = 150;
 	}
 
-	// TODO: rename currentRealBalance, "real" implies tha the others are not real
 	protected function get_property_map(): array {
 		return array(
 			'clientUserId'           => '3',
 			'clientEmail'            => '7',
 			'balanceAdjustmentsKey'  => '6',
-			'currentRealBalance'     => '5',
+			'currentBalance'         => '5',
 			'balancePendingApproval' => '8',
 		);
 	}

@@ -50,10 +50,10 @@ class HandleApprovalOnWorkCompleted {
 			return;
 		}
 
-		$hoursBalance   = convert_to_float( $adminClientBalance->currentRealBalance );
+		$hoursBalance   = convert_to_float( $adminClientBalance->currentBalance );
 		$purchasedHours = convert_to_float( $workCompletedEntity->hoursPurchased );
 		$hoursConsumed  = convert_to_float( $workCompletedEntity->hoursSpent );
-		$hoursPending   = convert_to_float( $adminClientBalance->balancePendingApproval );
+		$hoursPending   = convert_to_float( $adminClientBalance->pendingBalance );
 
 		if ( $status == 'approved' ) {
 			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
@@ -63,7 +63,7 @@ class HandleApprovalOnWorkCompleted {
 				$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
 			}
 
-			$adminClientBalance->currentRealBalance = $hoursNewBalance;
+			$adminClientBalance->currentBalance = $hoursNewBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			//TODO: Ask Andre if he would prefer only approved work submissions to be added as child entries to form 150
@@ -76,7 +76,7 @@ class HandleApprovalOnWorkCompleted {
 				$newPendingBalance = $hoursPending + $hoursConsumed;
 			}
 
-			$adminClientBalance->balancePendingApproval = $newPendingBalance;
+			$adminClientBalance->pendingBalance = $newPendingBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );

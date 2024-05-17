@@ -59,13 +59,13 @@ class WorkReportSubmitted {
 	 * @return void
 	 */
 	public function update_pending_balance( ?ClientBalanceEntity $clientAdminBalance, WorkCompletedEntity $workCompletedReport ): void {
-		$currentPendingHoursForClient = $clientAdminBalance->balancePendingApproval;
+		$currentPendingHoursForClient = $clientAdminBalance->pendingBalance;
 		if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedReport ) ) {
 			$newPendingAmount = $currentPendingHoursForClient + $workCompletedReport->hoursPurchased;
 		} else {
 			$newPendingAmount = $currentPendingHoursForClient - $workCompletedReport->hoursSpent;
 		}
-		$clientAdminBalance->balancePendingApproval = $newPendingAmount;
+		$clientAdminBalance->pendingBalance = $newPendingAmount;
 		$this->adminClientBalanceRepository->update( $clientAdminBalance );
 	}
 }
