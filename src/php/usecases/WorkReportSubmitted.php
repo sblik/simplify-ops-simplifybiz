@@ -21,6 +21,8 @@ class WorkReportSubmitted {
 
 		if ( $clientEmailInReport !== $clientAdminBalance->clientEmail ) {
 			$clientAdminBalance->clientEmail = $clientEmailInReport;
+			// TODO: there is potentially a double update here, because  of the subsequent pending balance update
+			// TODO: we ideally only want to see one update
 			$this->adminClientBalanceRepository->update( $clientAdminBalance );
 		}
 
@@ -42,7 +44,7 @@ class WorkReportSubmitted {
 	 *
 	 * @return bool
 	 */
-	public function is_report_balance_adjustment( WorkCompletedEntity $workCompletedReport ): bool {
+	public function is_balance_adjustment_for_hours_purchased( WorkCompletedEntity $workCompletedReport ): bool {
 		if ( $workCompletedReport->hoursSpent == '' ) {
 			return true;
 		}
@@ -58,7 +60,7 @@ class WorkReportSubmitted {
 	 */
 	public function update_pending_balance( ?AdminClientBalanceEntity $clientAdminBalance, WorkCompletedEntity $workCompletedReport ): void {
 		$currentPendingHoursForClient = $clientAdminBalance->balancePendingApproval;
-		if ( $this->is_report_balance_adjustment( $workCompletedReport ) ) {
+		if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedReport ) ) {
 			$newPendingAmount = $currentPendingHoursForClient + $workCompletedReport->hoursPurchased;
 		} else {
 			$newPendingAmount = $currentPendingHoursForClient - $workCompletedReport->hoursSpent;

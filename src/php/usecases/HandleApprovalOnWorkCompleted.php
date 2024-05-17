@@ -59,7 +59,7 @@ class HandleApprovalOnWorkCompleted {
 		$hoursPending   = convert_to_float( $adminClientBalance->balancePendingApproval );
 
 		if ( $status == 'approved' ) {
-			if ( $this->is_report_balance_adjustment( $workCompletedEntity ) ) {
+			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
 				$hoursNewBalance = $hoursBalance + $purchasedHours;
 			} else {
 				$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
@@ -72,7 +72,7 @@ class HandleApprovalOnWorkCompleted {
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
 
 		} elseif ( $status == 'rejected' ) {
-			if ( $this->is_report_balance_adjustment( $workCompletedEntity ) ) {
+			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
 				$newPendingBalance = $hoursPending - $purchasedHours;
 			} else {
 				$newPendingBalance = $hoursPending + $hoursConsumed;
@@ -140,7 +140,7 @@ class HandleApprovalOnWorkCompleted {
 	 * @return bool
 	 */
 	//TODO: This is a repeat of a function in WorkReportSubmitted but I don't know the best place to put it to make it reusable
-	public function is_report_balance_adjustment( WorkCompletedEntity $workCompletedReport ): bool {
+	public function is_balance_adjustment_for_hours_purchased( WorkCompletedEntity $workCompletedReport ): bool {
 		if ( $workCompletedReport->hoursSpent == '' ) {
 			return true;
 		}
