@@ -8,7 +8,7 @@
  * @property $currentRealBalance
  * @property $balancePendingApproval
  */
-class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
+class ClientBalanceEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
 		parent::__construct( $formEntry );
 		$this->formId = 150;

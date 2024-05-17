@@ -2,9 +2,9 @@
 
 class WorkReportSubmitted {
 	private WorkCompletedRepository $workCompletedReportsRepository;
-	private AdminClientBalanceRepository $adminClientBalanceRepository;
+	private ClientBalanceRepository $adminClientBalanceRepository;
 
-	public function __construct( WorkCompletedRepository $workCompletedReportsRepository, AdminClientBalanceRepository $adminClientBalanceRepository ) {
+	public function __construct( WorkCompletedRepository $workCompletedReportsRepository, ClientBalanceRepository $adminClientBalanceRepository ) {
 		$this->workCompletedReportsRepository = $workCompletedReportsRepository;
 		$this->adminClientBalanceRepository   = $adminClientBalanceRepository;
 	}
@@ -17,7 +17,7 @@ class WorkReportSubmitted {
 
 		$this->store_client_user_id( $workCompletedReport, $clientUserId );
 
-		$clientAdminBalance = $this->adminClientBalanceRepository->get_one( [ AdminClientBalanceEntity::get_field_id( 'clientUserId' ) => $clientUserId ] );
+		$clientAdminBalance = $this->adminClientBalanceRepository->get_one( [ ClientBalanceEntity::get_field_id( 'clientUserId' ) => $clientUserId ] );
 
 		if ( $clientEmailInReport !== $clientAdminBalance->clientEmail ) {
 			$clientAdminBalance->clientEmail = $clientEmailInReport;
@@ -53,12 +53,12 @@ class WorkReportSubmitted {
 	}
 
 	/**
-	 * @param AdminClientBalanceEntity|null $clientAdminBalance
+	 * @param ClientBalanceEntity|null $clientAdminBalance
 	 * @param WorkCompletedEntity $workCompletedReport
 	 *
 	 * @return void
 	 */
-	public function update_pending_balance( ?AdminClientBalanceEntity $clientAdminBalance, WorkCompletedEntity $workCompletedReport ): void {
+	public function update_pending_balance( ?ClientBalanceEntity $clientAdminBalance, WorkCompletedEntity $workCompletedReport ): void {
 		$currentPendingHoursForClient = $clientAdminBalance->balancePendingApproval;
 		if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedReport ) ) {
 			$newPendingAmount = $currentPendingHoursForClient + $workCompletedReport->hoursPurchased;

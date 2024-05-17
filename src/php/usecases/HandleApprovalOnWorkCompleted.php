@@ -6,14 +6,14 @@
 
 class HandleApprovalOnWorkCompleted {
 	private WorkCompletedRepository $workCompletedRepository;
-	private AdminClientBalanceRepository $adminClientBalancesRepository;
+	private ClientBalanceRepository $clientBalancesRepository;
 
 	public function __construct(
 		WorkCompletedRepository $workCompletedRepository,
-		AdminClientBalanceRepository $clientBalancesRepository
+		ClientBalanceRepository $clientBalancesRepository
 	) {
-		$this->workCompletedRepository       = $workCompletedRepository;
-		$this->adminClientBalancesRepository = $clientBalancesRepository;
+		$this->workCompletedRepository  = $workCompletedRepository;
+		$this->clientBalancesRepository = $clientBalancesRepository;
 	}
 
 	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
@@ -42,7 +42,7 @@ class HandleApprovalOnWorkCompleted {
 
 		SMPLFY_Log::info( "Updating client balances after $status work completed for $organizationName ($workCompletedEntity->clientUserId): ", $workCompletedEntity );
 
-		$adminClientBalance = $this->adminClientBalancesRepository->get_one_by_client_user_id( $workCompletedEntity->clientUserId );
+		$adminClientBalance = $this->clientBalancesRepository->get_one_by_client_user_id( $workCompletedEntity->clientUserId );
 
 		if ( empty( $adminClientBalance ) ) {
 			SMPLFY_Log::error( "Failed to update client remaining balance: No admin client balance found for client user id: $workCompletedEntity->clientUserId" );
@@ -64,7 +64,7 @@ class HandleApprovalOnWorkCompleted {
 			}
 
 			$adminClientBalance->currentRealBalance = $hoursNewBalance;
-			$this->adminClientBalancesRepository->update( $adminClientBalance );
+			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			//TODO: Ask Andre if he would prefer only approved work submissions to be added as child entries to form 150
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
@@ -77,7 +77,7 @@ class HandleApprovalOnWorkCompleted {
 			}
 
 			$adminClientBalance->balancePendingApproval = $newPendingBalance;
-			$this->adminClientBalancesRepository->update( $adminClientBalance );
+			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );
 		}

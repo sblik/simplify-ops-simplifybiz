@@ -15,16 +15,16 @@ class DependencyFactory {
 
 		// Repositories
 		$workCompletedRepository                = new WorkCompletedRepository( $gravityFormsWrapper );
-		$adminClientBalanceRepository           = new AdminClientBalanceRepository( $gravityFormsWrapper );
-		$adminClientBalanceAdjustmentRepository = new AdminClientBalanceAdjustmentRepository( $gravityFormsWrapper );
+		$clientBalanceRepository           = new ClientBalanceRepository( $gravityFormsWrapper );
+		$clientBalanceAdjustmentRepository = new ClientBalanceAdjustmentRepository( $gravityFormsWrapper );
 
 		// Use cases
 		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository );
-		$workReportCompleted           = new WorkReportSubmitted( $workCompletedRepository, $adminClientBalanceRepository );
-		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $adminClientBalanceRepository, $clientBalanceRepository );
+		$workReportCompleted           = new WorkReportSubmitted( $workCompletedRepository, $clientBalanceRepository );
+		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $clientBalanceRepository );
 
 		// Handlers
-		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $adminClientBalanceRepository, $adminClientBalanceAdjustmentRepository );
+		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
 
 		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted );
