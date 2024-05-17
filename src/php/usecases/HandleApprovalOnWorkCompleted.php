@@ -26,13 +26,11 @@ class HandleApprovalOnWorkCompleted {
 		$workCompletedEntry = $this->workCompletedRepository->get_one_by_id( $entry_id );
 
 		$this->update_admin_client_remaining_balance( $status, $workCompletedEntry );
-		// TODO: we are probably going to do away with the client balance repository
-		$this->update_client_closing_balance( $workCompletedEntry );
 	}
 
 	/**
 	 * @param $status
-	 * @param WorkCompletedEntity $workCompletedEntity
+	 * @param  WorkCompletedEntity  $workCompletedEntity
 	 *
 	 * @return void
 	 */
@@ -51,27 +49,33 @@ class HandleApprovalOnWorkCompleted {
 		}
 
 		$hoursBalance   = convert_to_float( $adminClientBalance->currentBalance );
-		$purchasedHours = convert_to_float( $workCompletedEntity->hoursPurchased );
+		$hoursPurchased = convert_to_float( $workCompletedEntity->hoursPurchased );
 		$hoursConsumed  = convert_to_float( $workCompletedEntity->hoursSpent );
 		$hoursPending   = convert_to_float( $adminClientBalance->pendingBalance );
 
+		SMPLFY_Log::info( 'Balances prior to update: ', array(
+			'Hours Balance'   => $hoursBalance,
+			'Hours Purchased' => $hoursPurchased,
+			'Hours Consumed'  => $hoursConsumed,
+		) );
+
 		if ( $status == 'approved' ) {
 			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
-				$hoursNewBalance = $hoursBalance + $purchasedHours;
+				$hoursNewBalance = $hoursBalance + $hoursPurchased;
 			} else {
 				// TODO: why would there be purchased hours in this case?
-				$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
+				$hoursNewBalance = $hoursBalance - $hoursConsumed + $hoursPurchased;
 			}
 
 			$adminClientBalance->currentBalance = $hoursNewBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			//TODO: Ask Andre if he would prefer only approved work submissions to be added as child entries to form 150
-			SMPLFY_Log::info( "Admin balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
+			SMPLFY_Log::info( "Client balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
 
 		} elseif ( $status == 'rejected' ) {
 			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
-				$newPendingBalance = $hoursPending - $purchasedHours;
+				$newPendingBalance = $hoursPending - $hoursPurchased;
 			} else {
 				$newPendingBalance = $hoursPending + $hoursConsumed;
 			}
@@ -79,61 +83,12 @@ class HandleApprovalOnWorkCompleted {
 			$adminClientBalance->pendingBalance = $newPendingBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
-			SMPLFY_Log::info( "Admin balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );
+			SMPLFY_Log::info( "Client balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );
 		}
 	}
 
 	/**
-	 * @param WorkCompletedEntity $workCompletedEntry
-	 *
-	 * @return void
-	 */
-	private function update_client_closing_balance( WorkCompletedEntity $workCompletedEntry ) {
-		$clientBalance = $this->clientBalanceRepository->get_one_by_client_user_id( $workCompletedEntry->clientUserId );
-
-		if ( empty( $clientBalance ) ) {
-			SMPLFY_Log::error( "Failed to update client closing balance: No client balance found for client user id: $workCompletedEntry->clientUserId" );
-
-			return;
-		}
-
-		$hoursBalance   = convert_to_float( $clientBalance->hours );
-		$hoursPurchased = convert_to_float( $workCompletedEntry->hoursPurchased );
-		$hoursConsumed  = convert_to_float( $workCompletedEntry->hoursSpent );
-
-		$hoursNewBalance = $hoursBalance - $hoursConsumed + $hoursPurchased;
-
-		$minutesBalance   = convert_to_float( $clientBalance->minutes );
-		$minutesConsumed  = convert_to_float( $workCompletedEntry->minutesSpent );
-		$minutesPurchased = convert_to_float( $workCompletedEntry->minutesPurchased );
-
-		$minutesNewBalance = $minutesBalance - $minutesConsumed + $minutesPurchased;
-
-		SMPLFY_Log::info( 'Updating client closing balances: ', array(
-			'Hours Balance'       => $hoursBalance,
-			'Hours Purchased'     => $hoursPurchased,
-			'Hours Consumed'      => $hoursConsumed,
-			'Hours New Balance'   => $hoursNewBalance,
-			'Minutes Balance'     => $minutesBalance,
-			'Minutes Purchased'   => $minutesPurchased,
-			'Minutes Consumed'    => $minutesConsumed,
-			'Minutes New Balance' => $minutesNewBalance,
-		) );
-
-		$workCompletedEntry->minutesBroughtForward = $minutesBalance;
-		$workCompletedEntry->minutesBalance        = $minutesNewBalance;
-		$this->workCompletedRepository->update( $workCompletedEntry );
-
-		$clientBalance->minutes = $minutesNewBalance;
-		$clientBalance->hours   = $hoursNewBalance;
-		$this->clientBalanceRepository->update( $clientBalance );
-
-		SMPLFY_Log::info( "Closing balance updated successfully for $workCompletedEntry->organisationName and work completed id $workCompletedEntry->id" );
-	}
-
-
-	/**
-	 * @param WorkCompletedEntity $workCompletedReport
+	 * @param  WorkCompletedEntity  $workCompletedReport
 	 *
 	 * @return bool
 	 */
