@@ -17,7 +17,6 @@ class DependencyFactory {
 		$workCompletedRepository                = new WorkCompletedRepository( $gravityFormsWrapper );
 		$adminClientBalanceRepository           = new AdminClientBalanceRepository( $gravityFormsWrapper );
 		$adminClientBalanceAdjustmentRepository = new AdminClientBalanceAdjustmentRepository( $gravityFormsWrapper );
-		$clientBalanceRepository                = new ClientBalanceRepository( $gravityFormsWrapper );
 
 		// Use cases
 		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository );

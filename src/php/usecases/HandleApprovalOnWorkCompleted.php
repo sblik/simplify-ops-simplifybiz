@@ -7,16 +7,13 @@
 class HandleApprovalOnWorkCompleted {
 	private WorkCompletedRepository $workCompletedRepository;
 	private AdminClientBalanceRepository $adminClientBalancesRepository;
-	private ClientBalanceRepository $clientBalanceRepository;
 
 	public function __construct(
 		WorkCompletedRepository $workCompletedRepository,
-		AdminClientBalanceRepository $clientBalancesRepository,
-		ClientBalanceRepository $clientBalanceRepository
+		AdminClientBalanceRepository $clientBalancesRepository
 	) {
 		$this->workCompletedRepository       = $workCompletedRepository;
 		$this->adminClientBalancesRepository = $clientBalancesRepository;
-		$this->clientBalanceRepository       = $clientBalanceRepository;
 	}
 
 	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
@@ -29,6 +26,7 @@ class HandleApprovalOnWorkCompleted {
 		$workCompletedEntry = $this->workCompletedRepository->get_one_by_id( $entry_id );
 
 		$this->update_admin_client_remaining_balance( $status, $workCompletedEntry );
+		// TODO: we are probably going to do away with the client balance repository
 		$this->update_client_closing_balance( $workCompletedEntry );
 	}
 
