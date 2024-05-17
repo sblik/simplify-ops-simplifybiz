@@ -20,7 +20,6 @@ class HandleApprovalOnWorkCompleted {
 	}
 
 	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
-		SMPLFY_Log::info( "UPDATE CLIENT BALANCES CALLED ------" );
 		if ( $step_id != '128' ) {
 			return;
 		}
@@ -62,6 +61,7 @@ class HandleApprovalOnWorkCompleted {
 			if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedEntity ) ) {
 				$hoursNewBalance = $hoursBalance + $purchasedHours;
 			} else {
+				// TODO: why would there be purchased hours in this case?
 				$hoursNewBalance = $hoursBalance - $hoursConsumed + $purchasedHours;
 			}
 

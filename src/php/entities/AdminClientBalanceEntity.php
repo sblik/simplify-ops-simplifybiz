@@ -14,6 +14,7 @@ class AdminClientBalanceEntity extends SMPLFY_BaseEntity {
 		$this->formId = 150;
 	}
 
+	// TODO: rename currentRealBalance, "real" implies tha the others are not real
 	protected function get_property_map(): array {
 		return array(
 			'clientUserId'           => '3',
