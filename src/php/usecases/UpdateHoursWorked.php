@@ -23,19 +23,12 @@ class UpdateHoursWorked {
 
 		SMPLFY_Log::info( "Update dev rate", $updateDevRate );
 
-		$employeesWorkSubmissions = $this->get_work_completed_entities(
-			$updateDevRate->employeeUserID,
-			$updateDevRate->queryPeriodFrom,
-			$updateDevRate->queryPeriodTo,
-			$updateDevRate->updateForClientYN,
-			$updateDevRate,
-			$this->workCompletedReportsRepository
-		);
+		$employeesWorkSubmissions = $this->get_work_completed_entities( $updateDevRate, $this->workCompletedReportsRepository );
 
 		$count = count( $employeesWorkSubmissions );
 		SMPLFY_Log::info( "Updating $count historical submissions to use rate $updateDevRate->devRate for user $userID between $updateDevRate->queryPeriodFrom and $updateDevRate->queryPeriodTo" );
 
-		if ( $updateDevRate->updateDevRateMetaYN == 'Yes' ) {
+		if ( $updateDevRate->updateForFutureSubmissionsYN == 'Yes' ) {
 			update_user_meta( $userID, 'devrate', $newDevRate );
 		}
 
@@ -48,16 +41,17 @@ class UpdateHoursWorked {
 	}
 
 	/**
-	 * @param $employeeUserID
-	 * @param $queryPeriodFrom
-	 * @param $queryPeriodTo
-	 * @param $updateForClientYN
-	 * @param UpdateHoursWorkedDevEntity $updateDevRate
-	 * @param WorkCompletedRepository $workCompletedRepository
+	 * @param  UpdateHoursWorkedDevEntity  $updateDevRate
+	 * @param  WorkCompletedRepository  $workCompletedRepository
 	 *
 	 * @return UpdateHoursWorkedDevEntity[]|WorkCompletedEntity[]
 	 */
-	function get_work_completed_entities( $employeeUserID, $queryPeriodFrom, $queryPeriodTo, $updateForClientYN, UpdateHoursWorkedDevEntity $updateDevRate, WorkCompletedRepository $workCompletedRepository ): array {
+	function get_work_completed_entities( UpdateHoursWorkedDevEntity $updateDevRate, WorkCompletedRepository $workCompletedRepository ): array {
+		$employeeUserID    = $updateDevRate->employeeUserID;
+		$queryPeriodFrom   = $updateDevRate->queryPeriodFrom;
+		$queryPeriodTo     = $updateDevRate->queryPeriodTo;
+		$updateForClientYN = $updateDevRate->updateForClientYN;
+
 		if ( $updateForClientYN == 'Yes' ) {
 			return $workCompletedRepository->get_for_user_and_client_between_dates( $employeeUserID, $queryPeriodFrom, $queryPeriodTo, $updateDevRate->clientEmail );
 		}

@@ -6,7 +6,8 @@
  * @property $devRate
  * @property $queryPeriodFrom
  * @property $queryPeriodTo
- * @property $updateDevRateMetaYN
+ * @property $updateForFutureSubmissionsYN
+ * @property $updateForClientYN
  */
 class UpdateHoursWorkedDevEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -16,11 +17,12 @@ class UpdateHoursWorkedDevEntity extends SMPLFY_BaseEntity {
 
 	protected function get_property_map(): array {
 		return array(
-			'employeeUserID'      => '1',
-			'devRate'             => '3',
-			'queryPeriodFrom'     => '4',
-			'queryPeriodTo'       => '5',
-			'updateDevRateMetaYN' => '8',
+			'employeeUserID'                => '1',
+			'devRate'                       => '3',
+			'queryPeriodFrom'               => '4',
+			'queryPeriodTo'                 => '5',
+			'$updateForFutureSubmissionsYN' => '8',
+			'updateForClientYN'             => '11',
 		);
 	}
 }
