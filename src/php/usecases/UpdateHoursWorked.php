@@ -7,8 +7,11 @@
 class UpdateHoursWorked {
 	private WorkCompletedRepository $workCompletedReportsRepository;
 
-	public function __construct( WorkCompletedRepository $workCompletedReportsRepository ) {
+	private ClientBalanceRepository $clientBalanceRepository;
+
+	public function __construct( WorkCompletedRepository $workCompletedReportsRepository, ClientBalanceRepository $clientBalanceRepository ) {
 		$this->workCompletedReportsRepository = $workCompletedReportsRepository;
+		$this->clientBalanceRepository        = $clientBalanceRepository;
 	}
 
 	/**
@@ -41,8 +44,8 @@ class UpdateHoursWorked {
 	}
 
 	/**
-	 * @param  UpdateHoursWorkedDevEntity  $updateDevRate
-	 * @param  WorkCompletedRepository  $workCompletedRepository
+	 * @param UpdateHoursWorkedDevEntity $updateDevRate
+	 * @param WorkCompletedRepository $workCompletedRepository
 	 *
 	 * @return UpdateHoursWorkedDevEntity[]|WorkCompletedEntity[]
 	 */

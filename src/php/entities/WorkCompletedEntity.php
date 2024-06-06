@@ -30,7 +30,7 @@ class WorkCompletedEntity extends SMPLFY_BaseEntity {
 		return array(
 			'clientUserId'          => '2',
 			'clientEmail'           => '30',
-			'requestSummary'        => '39',
+			'requestSummary'        => '87',
 			'clientFirstName'       => '1.3',
 			'clientLastName'        => '1.6',
 			'minutesBroughtForward' => '16',

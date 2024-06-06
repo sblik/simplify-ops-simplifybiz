@@ -6,7 +6,7 @@
  * @property $clientEmail
  * @property $balanceAdjustmentsKey
  * @property $currentBalance
- * @property $pendingBalance
+ * @property $balancePendingApproval
  */
 class ClientBalanceEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {

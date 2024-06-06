@@ -59,13 +59,16 @@ class WorkReportSubmitted {
 	 * @return void
 	 */
 	public function update_pending_balance( ?ClientBalanceEntity $clientAdminBalance, WorkCompletedEntity $workCompletedReport ): void {
-		$currentPendingHoursForClient = $clientAdminBalance->pendingBalance;
+		SMPLFY_Log::info( "IN UPDATE PENDING BALANCE --" );
+		SMPLFY_Log::info( "CLIENT ADMIN BALANCE ENTITY: ", $clientAdminBalance );
+		SMPLFY_Log::info( "WORK COMPLETED REPORT ENTITY: ", $workCompletedReport );
+		$currentPendingHoursForClient = $clientAdminBalance->balancePendingApproval;
 		if ( $this->is_balance_adjustment_for_hours_purchased( $workCompletedReport ) ) {
 			$newPendingAmount = $currentPendingHoursForClient + $workCompletedReport->hoursPurchased;
 		} else {
 			$newPendingAmount = $currentPendingHoursForClient - $workCompletedReport->hoursSpent;
 		}
-		$clientAdminBalance->pendingBalance = $newPendingAmount;
+		$clientAdminBalance->balancePendingApproval = $newPendingAmount;
 		$this->adminClientBalanceRepository->update( $clientAdminBalance );
 	}
 }

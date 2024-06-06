@@ -7,30 +7,35 @@
 class HandleApprovalOnWorkCompleted {
 	private WorkCompletedRepository $workCompletedRepository;
 	private ClientBalanceRepository $clientBalancesRepository;
+	private ClientBalanceAdjustmentRepository $adminClientBalanceAdjustmentRepository;
 
 	public function __construct(
 		WorkCompletedRepository $workCompletedRepository,
-		ClientBalanceRepository $clientBalancesRepository
+		ClientBalanceRepository $clientBalancesRepository,
+		ClientBalanceAdjustmentRepository $adminClientBalanceAdjustmentRepository
 	) {
-		$this->workCompletedRepository  = $workCompletedRepository;
-		$this->clientBalancesRepository = $clientBalancesRepository;
+		$this->workCompletedRepository                = $workCompletedRepository;
+		$this->clientBalancesRepository               = $clientBalancesRepository;
+		$this->adminClientBalanceAdjustmentRepository = $adminClientBalanceAdjustmentRepository;
 	}
 
 	function update_client_balances( $step_id, $entry_id, $form_id, $status ): void {
-		if ( $step_id != '128' ) {
-			return;
+		if ( $form_id == 50 ) {
+			if ( $step_id != '52' ) {
+				return;
+			}
+
+			SMPLFY_Log::info( "Approval step completed for entry $entry_id with status: $status" );
+
+			$workCompletedEntity = $this->workCompletedRepository->get_one_by_id( $entry_id );
+
+			$this->update_admin_client_remaining_balance( $status, $workCompletedEntity );
 		}
-
-		SMPLFY_Log::info( "Approval step completed for entry $entry_id with status: $status" );
-
-		$workCompletedEntry = $this->workCompletedRepository->get_one_by_id( $entry_id );
-
-		$this->update_admin_client_remaining_balance( $status, $workCompletedEntry );
 	}
 
 	/**
 	 * @param $status
-	 * @param  WorkCompletedEntity  $workCompletedEntity
+	 * @param WorkCompletedEntity $workCompletedEntity
 	 *
 	 * @return void
 	 */
@@ -51,7 +56,7 @@ class HandleApprovalOnWorkCompleted {
 		$hoursBalance   = convert_to_float( $adminClientBalance->currentBalance );
 		$hoursPurchased = convert_to_float( $workCompletedEntity->hoursPurchased );
 		$hoursConsumed  = convert_to_float( $workCompletedEntity->hoursSpent );
-		$hoursPending   = convert_to_float( $adminClientBalance->pendingBalance );
+		$hoursPending   = convert_to_float( $adminClientBalance->balancePendingApproval );
 
 		SMPLFY_Log::info( 'Balances prior to update: ', array(
 			'Hours Balance'   => $hoursBalance,
@@ -70,6 +75,8 @@ class HandleApprovalOnWorkCompleted {
 			$adminClientBalance->currentBalance = $hoursNewBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
+			$this->create_balance_adjustments_for_client( $adminClientBalance->clientEmail, $workCompletedEntity, $adminClientBalance );
+
 			//TODO: Ask Andre if he would prefer only approved work submissions to be added as child entries to form 150
 			SMPLFY_Log::info( "Client balance: Number of hours remaining updated from $hoursBalance to $hoursNewBalance for $organizationName" );
 
@@ -80,7 +87,7 @@ class HandleApprovalOnWorkCompleted {
 				$newPendingBalance = $hoursPending + $hoursConsumed;
 			}
 
-			$adminClientBalance->pendingBalance = $newPendingBalance;
+			$adminClientBalance->balancePendingApproval = $newPendingBalance;
 			$this->clientBalancesRepository->update( $adminClientBalance );
 
 			SMPLFY_Log::info( "Client balance: Number of hours remaining pending approval updated from $hoursPending to $newPendingBalance for $organizationName" );
@@ -88,7 +95,7 @@ class HandleApprovalOnWorkCompleted {
 	}
 
 	/**
-	 * @param  WorkCompletedEntity  $workCompletedReport
+	 * @param WorkCompletedEntity $workCompletedReport
 	 *
 	 * @return bool
 	 */
@@ -99,5 +106,39 @@ class HandleApprovalOnWorkCompleted {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $clientName
+	 * @param int $clientUserId
+	 *
+	 * @return void
+	 */
+	public function create_balance_adjustments_for_client( string $clientName, WorkCompletedEntity $workCompletedEntity, ClientBalanceEntity $clientBalances ): void {
+		SMPLFY_Log::info( "Updating client balances for $clientName" );
+
+		$balanceAdjustment                   = new ClientBalanceAdjustmentEntity();
+		$balanceAdjustment->clientEmail      = $workCompletedEntity->clientEmail;
+		$balanceAdjustment->clientUserId     = $workCompletedEntity->clientUserId;
+		$balanceAdjustment->clientFirstName  = $workCompletedEntity->clientFirstName;
+		$balanceAdjustment->clientLastName   = $workCompletedEntity->clientLastName;
+		$balanceAdjustment->organisationName = $workCompletedEntity->organisationName;
+		$balanceAdjustment->transactionDate  = $workCompletedEntity->transactionDate;
+		$balanceAdjustment->requestSummary   = $workCompletedEntity->requestSummary;
+		$balanceAdjustment->workCompleted    = $workCompletedEntity->workCompleted;
+		$balanceAdjustment->hoursSpent       = $workCompletedEntity->hoursSpent;
+		$balanceAdjustment->parentKey        = $clientBalances->id;
+
+		$addResult = $this->adminClientBalanceAdjustmentRepository->add( $balanceAdjustment );
+
+		if ( $addResult instanceof WP_Error ) {
+			SMPLFY_Log::error( "Failed to add balance adjustment for $clientName.", [
+				'errors'              => $addResult->errors,
+				'work_complete_entry' => $workCompletedEntity,
+			] );
+		}
+
+
+		SMPLFY_Log::info( "Finished processing balance adjustments for $clientName" );
 	}
 }
