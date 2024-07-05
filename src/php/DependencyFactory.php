@@ -14,11 +14,24 @@ class DependencyFactory {
 		$gravityFormsWrapper = new SMPLFY_GravityFormsApiWrapper();
 
 		// Repositories
-		$workCompletedReportsRepository = new WorkCompletedReportsRepository($gravityFormsWrapper);
+		$workCompletedRepository                = new WorkCompletedRepository( $gravityFormsWrapper );
+		$clientBalanceRepository           = new ClientBalanceRepository( $gravityFormsWrapper );
+		$clientBalanceAdjustmentRepository = new ClientBalanceAdjustmentRepository( $gravityFormsWrapper );
 
 		// Use cases
-		$updateHoursWorked = new UpdateHoursWorked($workCompletedReportsRepository);
+		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository );
+		$workReportCompleted           = new WorkReportSubmitted( $workCompletedRepository, $clientBalanceRepository );
+		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $clientBalanceRepository );
 
-		new GravityFormsAdapter($updateHoursWorked);
+		// Handlers
+		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
+
+		// Adapters
+		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted );
+		new GravityFlowAdapter( $handleApprovalOnWorkCompleted );
+		new WordPressAdapter();
+
+		// Api
+		new ControllerFactory( $updateClientBalancesHandler );
 	}
 }
