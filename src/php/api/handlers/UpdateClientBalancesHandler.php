@@ -36,8 +36,8 @@ class UpdateClientBalancesHandler {
 	}
 
 	/**
-	 * @param  string  $clientName
-	 * @param  int  $clientUserId
+	 * @param string $clientName
+	 * @param int $clientUserId
 	 *
 	 * @return void
 	 */
@@ -53,6 +53,7 @@ class UpdateClientBalancesHandler {
 
 		foreach ( $workCompletedEntries as $workCompletedEntry ) {
 			$balanceAdjustment                   = new ClientBalanceAdjustmentEntity();
+			$balanceAdjustment->createdBy        = $workCompletedEntry->clientUserId;
 			$balanceAdjustment->clientEmail      = $workCompletedEntry->clientEmail;
 			$balanceAdjustment->clientUserId     = $workCompletedEntry->clientUserId;
 			$balanceAdjustment->clientFirstName  = $workCompletedEntry->clientFirstName;
@@ -60,6 +61,7 @@ class UpdateClientBalancesHandler {
 			$balanceAdjustment->organisationName = $workCompletedEntry->organisationName;
 			$balanceAdjustment->transactionDate  = $workCompletedEntry->transactionDate;
 			$balanceAdjustment->requestSummary   = $workCompletedEntry->requestSummary;
+			$balanceAdjustment->project          = $workCompletedEntry->project;
 			$balanceAdjustment->workCompleted    = $workCompletedEntry->workCompleted;
 			$balanceAdjustment->hoursSpent       = $workCompletedEntry->hoursSpent;
 			$balanceAdjustment->parentKey        = $clientBalances->id;

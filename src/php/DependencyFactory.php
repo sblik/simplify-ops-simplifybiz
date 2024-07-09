@@ -14,22 +14,25 @@ class DependencyFactory {
 		$gravityFormsWrapper = new SMPLFY_GravityFormsApiWrapper();
 
 		// Repositories
-		$workCompletedRepository                = new WorkCompletedRepository( $gravityFormsWrapper );
+		$workCompletedRepository           = new WorkCompletedRepository( $gravityFormsWrapper );
 		$clientBalanceRepository           = new ClientBalanceRepository( $gravityFormsWrapper );
 		$clientBalanceAdjustmentRepository = new ClientBalanceAdjustmentRepository( $gravityFormsWrapper );
 
 		// Use cases
-		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository );
+		$updateHoursWorked             = new UpdateHoursWorked( $workCompletedRepository, $clientBalanceRepository );
 		$workReportCompleted           = new WorkReportSubmitted( $workCompletedRepository, $clientBalanceRepository );
-		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $clientBalanceRepository );
+		$handleApprovalOnWorkCompleted = new HandleApprovalOnWorkCompleted( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
+		$recalculateClientBalance      = new RecalculateClientBalance( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
+		$menuLoaded                    = new MenuLoaded( $clientBalanceRepository );
+		$addUserContactMethod          = new AddUserContactMethod();
 
 		// Handlers
 		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
 
 		// Adapters
-		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted );
+		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
 		new GravityFlowAdapter( $handleApprovalOnWorkCompleted );
-		new WordPressAdapter();
+		new WordPressAdapter( $addUserContactMethod, $menuLoaded );
 
 		// Api
 		new ControllerFactory( $updateClientBalancesHandler );
