@@ -11,6 +11,7 @@
  * @property $requestSummary
  * @property $workCompleted
  * @property $hoursSpent
+ * @property $project
  */
 class ClientBalanceAdjustmentEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -31,6 +32,7 @@ class ClientBalanceAdjustmentEntity extends SMPLFY_BaseEntity {
 			'requestSummary'   => '6',
 			'workCompleted'    => '7',
 			'hoursSpent'       => '8',
+			'project'          => '11',
 		);
 	}
 }

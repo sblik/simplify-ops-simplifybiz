@@ -118,6 +118,7 @@ class HandleApprovalOnWorkCompleted {
 		SMPLFY_Log::info( "Updating client balances for $clientName" );
 
 		$balanceAdjustment                   = new ClientBalanceAdjustmentEntity();
+		$balanceAdjustment->createdBy        = $workCompletedEntity->clientUserId;
 		$balanceAdjustment->clientEmail      = $workCompletedEntity->clientEmail;
 		$balanceAdjustment->clientUserId     = $workCompletedEntity->clientUserId;
 		$balanceAdjustment->clientFirstName  = $workCompletedEntity->clientFirstName;
@@ -125,6 +126,7 @@ class HandleApprovalOnWorkCompleted {
 		$balanceAdjustment->organisationName = $workCompletedEntity->organisationName;
 		$balanceAdjustment->transactionDate  = $workCompletedEntity->transactionDate;
 		$balanceAdjustment->requestSummary   = $workCompletedEntity->requestSummary;
+		$balanceAdjustment->project          = $workCompletedEntity->project;
 		$balanceAdjustment->workCompleted    = $workCompletedEntity->workCompleted;
 		$balanceAdjustment->hoursSpent       = $workCompletedEntity->hoursSpent;
 		$balanceAdjustment->parentKey        = $clientBalances->id;

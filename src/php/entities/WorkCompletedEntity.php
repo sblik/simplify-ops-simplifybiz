@@ -19,6 +19,7 @@
  * @property $devRate
  * @property $fiftySix
  * @property $fiftySeven
+ * @property $project
  */
 class WorkCompletedEntity extends SMPLFY_BaseEntity {
 	public function __construct( $formEntry = array() ) {
@@ -44,6 +45,7 @@ class WorkCompletedEntity extends SMPLFY_BaseEntity {
 			'minutesSpent'          => '66',
 			'reportType'            => '53',
 			'numberOfHoursWorked'   => '107',
+			'project'               => '83',
 			'devRate'               => '109',
 		);
 	}
