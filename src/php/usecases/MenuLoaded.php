@@ -15,7 +15,7 @@ class MenuLoaded {
 
 		foreach ( $menu_items as $menu_item ) {
 
-			if ( $menu_item->ID == '19319' ) {
+			if ( $menu_item->ID == '19434' ) {
 				$clientBalancesEntity = $this->clientBalancesRepository->get_one_by_client_user_id( $userID );
 				if ( empty( $clientBalancesEntity ) ) {
 					$menu_item->title = '';
