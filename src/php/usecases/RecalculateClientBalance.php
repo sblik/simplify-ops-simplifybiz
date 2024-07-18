@@ -46,10 +46,13 @@ class RecalculateClientBalance {
 		foreach ( $workCompletedReports as $workCompletedReport ) {
 			$reportApprovalStatus = $workCompletedReport->formEntry['workflow_step_status_52'];
 
+			$dateOfReportCreation = $workCompletedReport->formEntry['date_created'];
+			$yearOfCreation       = substr( $dateOfReportCreation, 0, 4 );
+
 			$balanceIncludingPending += $workCompletedReport->hoursPurchased;
 			$balanceIncludingPending -= $workCompletedReport->hoursSpent;
 
-			if ( $reportApprovalStatus == 'approved' ) {
+			if ( ( $reportApprovalStatus == 'approved' ) || ( $yearOfCreation < 2023 ) ) {
 				$approvedBalance += $workCompletedReport->hoursPurchased;
 				$approvedBalance -= $workCompletedReport->hoursSpent;
 
@@ -66,17 +69,15 @@ class RecalculateClientBalance {
 	}
 
 	function recalculate_reports( $workCompletedReports, ClientBalanceEntity $clientBalance, $clientEmail, $clientUserID ) {
+		$adminWorkReportEntries = $this->adminClientBalanceAdjustmentRepository->get_all( [ '1' => $clientEmail ] );
+		foreach ( $adminWorkReportEntries as $adminWorkReportEntry ) {
+			//TODO: Use repositories after figuring out why the delete method doesn't work with the admin work reports repo
+			GFAPI::delete_entry( $adminWorkReportEntry->id );
+		}
 		foreach ( $workCompletedReports as $workCompletedReport ) {
+			$reportType           = $workCompletedReport->reportType;
 			$reportApprovalStatus = $workCompletedReport->formEntry['workflow_step_status_52'];
-			if ( $reportApprovalStatus == 'approved' ) {
-
-				$adminWorkReportEntries = $this->adminClientBalanceAdjustmentRepository->get_all( [ '1' => $clientEmail ] );
-
-				foreach ( $adminWorkReportEntries as $adminWorkReportEntry ) {
-					//TODO: Use repositories after figuring out why the delete method doesn't work with the admin work reports repo
-					GFAPI::delete_entry( $adminWorkReportEntry->id );
-				}
-
+			if ( ( $reportApprovalStatus == 'approved' ) && ( $reportType !== 'Manually Adjust Customer Balances' || ! empty( $reportType ) ) ) {
 				$this->add_workreport_to_balance_entity( $workCompletedReport, $clientBalance, $workCompletedReports, $clientUserID );
 			}
 		}
