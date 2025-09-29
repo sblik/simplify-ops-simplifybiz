@@ -34,6 +34,7 @@ class DependencyFactory {
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
 		new GravityFlowAdapter( $handleApprovalOnWorkCompleted );
 		new WordPressAdapter( $addUserContactMethod, $menuLoaded,$userLogin );
+		new MemberpressAdapter( $userLogin);
 
 		// Api
 		new ControllerFactory( $updateClientBalancesHandler );
