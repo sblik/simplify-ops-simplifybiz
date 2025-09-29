@@ -25,6 +25,7 @@ class DependencyFactory {
 		$recalculateClientBalance      = new RecalculateClientBalance( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
 		$menuLoaded                    = new MenuLoaded( $clientBalanceRepository );
 		$addUserContactMethod          = new AddUserContactMethod();
+		$userLogin          = new UserLogin();
 
 		// Handlers
 		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
@@ -32,7 +33,7 @@ class DependencyFactory {
 		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
 		new GravityFlowAdapter( $handleApprovalOnWorkCompleted );
-		new WordPressAdapter( $addUserContactMethod, $menuLoaded );
+		new WordPressAdapter( $addUserContactMethod, $menuLoaded,$userLogin );
 
 		// Api
 		new ControllerFactory( $updateClientBalancesHandler );
