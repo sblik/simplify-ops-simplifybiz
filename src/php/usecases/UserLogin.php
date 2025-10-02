@@ -18,8 +18,21 @@ class UserLogin
      */
     public function handle_redirect($redirect_to, $user): string
     {
-        if (UserActions::does_user_have_role($user, 'tasks')) {
+        SMPLFY_Log::info("In handle redirect, ", $redirect_to);
+        SMPLFY_Log::info("Does user have tasks role: ", self::does_user_have_role($user, 'tasks'));
+        if (self::does_user_have_role($user, 'tasks')) {
             return '/tasks';
         }
+        SMPLFY_Log::info("after condition");
+        return $redirect_to;
+    }
+    public static function does_user_have_role( $user, $roleName ): bool {
+        foreach ( $user->caps as $role => $true ) {
+            if ( $role == $roleName ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
