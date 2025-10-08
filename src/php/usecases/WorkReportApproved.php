@@ -21,7 +21,7 @@ class WorkReportApproved
         SMPLFY_Log::info("handle_workflow_approved triggered: ", $new_status);
             if ( $new_status == 'approved' ) {
                 SMPLFY_Log::info("IN if new status is approved");
-               wp_redirect("https://ops.simplifybiz.com/manager-dashboard/manager-tools/approvals/");
+               wp_redirect("https://ops.simplifybiz.com/inbox");
                die();
             }
     }
