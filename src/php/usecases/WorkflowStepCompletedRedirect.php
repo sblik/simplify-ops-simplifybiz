@@ -8,37 +8,30 @@ class WorkflowStepCompletedRedirect
     }
 
     /**
-     * Entry method for the use case to handle a user registration.
-     *
-     * @param $userId
-     * @param $feed
-     * @param $entry
-     *
-     * @return void
+     * @param $redirect_url
+     * @param $form_id
+     * @param $entry_id
+     * @return mixed|string
      */
-    public function handle_workflow_step_completed( $step_id, $entry_id, $formID, $status )
+    public function handle_workflow_step_completed($redirect_url, $form_id, $entry_id)
     {
-        SMPLFY_Log::info("handle_workflow_step_completed triggered: ", $status);
-
-        SMPLFY_Log::info("Form ID: ", $formID);
         $currentUser = get_user_by('ID', get_current_user_id());
-        $isManager   = UserActions::does_user_have_role($currentUser, 'manager');
-        if ($isManager) {
-            if ($formID == 50) {
-                $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-approvals/";
-            } elseif ($formID == 181) {
-                $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-internships/";
-            } elseif ($formID == 172 || $formID == 170) {
-                $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-task-requests/";
-            }
-            if (!empty($redirectURL)) {
-                SMPLFY_Log::info("Redirect URL: ", $redirectURL);
-                wp_redirect("https://ops.simplifybiz.com/inbox/inbox-approvals/");
-            } else {
-                wp_redirect("https://ops.simplifybiz.com/inbox/");
-            }
+        $isManager   = UserLogin::does_user_have_role($currentUser, 'manager');
 
-            exit;
+        if (!$isManager) {
+            return $redirect_url; // Return default
+        }
+
+        switch ($form_id) {
+            case 50:
+                return "https://ops.simplifybiz.com/inbox/inbox-approvals/";
+            case 181:
+                return "https://ops.simplifybiz.com/inbox/inbox-internships/";
+            case 172:
+            case 170:
+                return "https://ops.simplifybiz.com/inbox/inbox-task-requests/";
+            default:
+                return "https://ops.simplifybiz.com/inbox/";
         }
     }
 }
