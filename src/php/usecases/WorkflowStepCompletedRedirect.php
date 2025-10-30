@@ -27,7 +27,7 @@ class WorkflowStepCompletedRedirect
             } elseif($formID == 181){
                 $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-internships/";
             }
-            elseif($formID == 172){
+            elseif($formID == 172 || $formID == 170){
                 $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-task-requests/";
             }
             if(!empty($redirectURL)){
