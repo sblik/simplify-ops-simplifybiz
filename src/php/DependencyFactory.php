@@ -27,14 +27,13 @@ class DependencyFactory {
 		$addUserContactMethod          = new AddUserContactMethod();
 		$userLogin          = new UserLogin();
 		$workReportApproved          = new WorkReportApproved();
-		$workflowStepCompletedRedirect          = new WorkflowStepCompletedRedirect();
 
 		// Handlers
 		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
 
 		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
-		new GravityFlowAdapter( $handleApprovalOnWorkCompleted, $workReportApproved,$workflowStepCompletedRedirect );
+		new GravityFlowAdapter( $handleApprovalOnWorkCompleted, $workReportApproved );
 		new WordPressAdapter( $addUserContactMethod, $menuLoaded,$userLogin );
 		new MemberpressAdapter( $userLogin);
 
