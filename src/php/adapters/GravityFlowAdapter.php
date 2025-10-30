@@ -7,10 +7,12 @@ class GravityFlowAdapter {
 
 	private HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted;
 	private WorkReportApproved $workReportApproved;
+	private WorkflowStepCompletedRedirect $workflowStepCompletedRedirect;
 
-	public function __construct( HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted,WorkReportApproved $workReportApproved ) {
+	public function __construct( HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted,WorkReportApproved $workReportApproved,WorkflowStepCompletedRedirect $workflowStepCompletedRedirect ) {
 		$this->handleApprovalOnWorkCompleted    = $handleApprovalOnWorkCompleted;
 		$this->workReportApproved    = $workReportApproved;
+		$this->workflowStepCompletedRedirect    = $workflowStepCompletedRedirect;
 
 		$this->register_hooks();
 	}
@@ -22,6 +24,7 @@ class GravityFlowAdapter {
 	 */
 	public function register_hooks() {
 		add_action( 'gravityflow_step_complete', [ $this->handleApprovalOnWorkCompleted, 'update_client_balances' ], 10, 4 );
+		add_action( 'gravityflow_step_complete', [ $this->workflowStepCompletedRedirect, 'handle_workflow_step_completed' ], 10, 4 );
         add_action( 'gravityflow_post_status_update_approval', [ $this->workReportApproved,'handle_workflow_approved'], 10, 4 );
 	}
 }
