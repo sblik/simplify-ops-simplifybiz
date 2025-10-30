@@ -35,6 +35,8 @@ class WorkReportApproved
                 if(!empty($redirectURL)){
                     SMPLFY_Log::info("Redirect URL: ", $redirectURL);
                     wp_redirect("https://ops.simplifybiz.com/inbox/inbox-approvals/");
+                }else{
+                    wp_redirect("https://ops.simplifybiz.com/inbox/");
                 }
 
                die();
