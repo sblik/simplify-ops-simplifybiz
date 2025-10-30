@@ -21,7 +21,6 @@ class WorkflowStepCompletedRedirect
         SMPLFY_Log::info("handle_workflow_step_completed triggered: ", $status);
 
         SMPLFY_Log::info("Form ID: ", $formID);
-            SMPLFY_Log::info("IN if new status is approved");
             if($formID == 50){
                 $redirectURL = "https://ops.simplifybiz.com/inbox/inbox-approvals/";
             } elseif($formID == 181){
@@ -37,6 +36,6 @@ class WorkflowStepCompletedRedirect
                 wp_redirect("https://ops.simplifybiz.com/inbox/");
             }
 
-            die();
-        }
+        exit;
+    }
 }
