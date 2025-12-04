@@ -13,4 +13,11 @@ jQuery(document).ready(function ($) {
 
     $(".datepicker").attr("autocomplete", "off");
 
+    $('.gv-read-only input, .gv-read-only textarea').attr('readonly', true);
+    
+    // Prevent select changes but keep value submittable
+    $('.gv-read-only select').on('mousedown', function(e) {
+        e.preventDefault();
+    });
+
 });
