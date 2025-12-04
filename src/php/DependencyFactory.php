@@ -31,11 +31,18 @@ class DependencyFactory {
 		// Handlers
 		$updateClientBalancesHandler = new UpdateClientBalancesHandler( $workCompletedRepository, $clientBalanceRepository, $clientBalanceAdjustmentRepository );
 
+        // Billable hours reports
+        $billableHoursReport = new BillableHoursReport($workCompletedRepository);
+        $googleChatWebhookUrl = defined('SMPLFY_GOOGLE_CHAT_WEBHOOK_URL') ? SMPLFY_GOOGLE_CHAT_WEBHOOK_URL : '';
+        $billableHoursNotification = new BillableHoursNotification($billableHoursReport, $googleChatWebhookUrl);
+        $adminDashboard = new AdminDashboard($billableHoursReport, $billableHoursNotification);
+
 		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
 		new GravityFlowAdapter( $handleApprovalOnWorkCompleted, $workReportApproved );
-		new WordPressAdapter( $addUserContactMethod, $menuLoaded,$userLogin );
+		new WordPressAdapter( $addUserContactMethod, $menuLoaded, $userLogin, $adminDashboard, $billableHoursNotification );
 		new MemberpressAdapter( $userLogin);
+
 
 		// Api
 		new ControllerFactory( $updateClientBalancesHandler );
