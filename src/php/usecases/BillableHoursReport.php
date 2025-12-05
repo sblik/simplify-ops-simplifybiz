@@ -12,55 +12,6 @@ class BillableHoursReport
     }
 
     /**
-     * Get entries for a specific date (for debugging)
-     */
-    public function get_entries_for_date(string $targetDate): array {
-        $allWorkReports = $this->workCompletedRepository->get_all();
-
-        $entries = [];
-        foreach ($allWorkReports as $r) {
-            $transactionDate = $r->transactionDate ?? null;
-            // Check if transactionDate matches (handle different date formats)
-            if ($transactionDate && str_starts_with($transactionDate, $targetDate)) {
-                $entries[] = [
-                    'id' => $r->formEntry['id'] ?? 'N/A',
-                    'hoursSpent' => $r->hoursSpent,
-                    'clientEmail' => $r->clientEmail,
-                    'organisationName' => $r->organisationName,
-                    'transactionDate' => $transactionDate,
-                    'date_created' => $r->formEntry['date_created'] ?? 'N/A',
-                    'created_by' => $r->formEntry['created_by'] ?? 'N/A',
-                ];
-            }
-        }
-
-        return $entries;
-    }
-
-    /**
-     * Debug: Get sample of recent entries to see transactionDate format
-     */
-    public function get_sample_entries(int $limit = 10): array {
-        $allWorkReports = $this->workCompletedRepository->get_all();
-
-        // Get the last X entries (most recent) by reversing the array
-        $recentReports = array_slice(array_reverse($allWorkReports), 0, $limit);
-
-        $entries = [];
-        foreach ($recentReports as $r) {
-            $entries[] = [
-                'id' => $r->formEntry['id'] ?? 'N/A',
-                'transactionDate_entity' => $r->transactionDate,
-                'raw_field_18' => $r->formEntry['18'] ?? 'N/A',
-                'hoursSpent' => $r->hoursSpent,
-                'date_created' => $r->formEntry['date_created'] ?? 'N/A',
-            ];
-        }
-
-        return $entries;
-    }
-
-    /**
      * Get billable hours grouped by day for a given month
      *
      * @param int $month (1-12)

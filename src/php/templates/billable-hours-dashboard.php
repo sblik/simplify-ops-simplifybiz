@@ -1,21 +1,11 @@
 <?php
 /**
  * Template for Billable Hours Dashboard
- * Variables available: $month, $year, $report, $emailSent
+ * Variables available: $month, $year, $report
  */
 ?>
 <div class="wrap">
     <h1>Billable Hours Report</h1>
-
-    <?php if ($emailSent === true): ?>
-        <div class="notice notice-success is-dismissible">
-            <p>Report email sent successfully!</p>
-        </div>
-    <?php elseif ($emailSent === false): ?>
-        <div class="notice notice-error is-dismissible">
-            <p>Failed to send report email. Check your email configuration.</p>
-        </div>
-    <?php endif; ?>
 
     <!--  Month/Year Selector  -->
     <form method="get" style="margin-bottom: 20px;">
@@ -45,17 +35,6 @@
         <p style="color: #666;">
             From <?php echo $report['reportCount']; ?> work reports
         </p>
-    </div>
-    <!--  Send Test Email  -->
-    <div class="card" style="max-width: 300px; padding: 15px; margin-bottom: 20px;">
-        <h3 style="margin-top: 0;">Email Report</h3>
-        <p style="color: #666; margin-bottom: 10px;">Send the daily billable hours report email now.</p>
-        <form method="post">
-            <?php wp_nonce_field('send_billable_hours_email'); ?>
-            <button type="submit" name="send_test_email" class="button button-primary">
-                Send Report Email
-            </button>
-        </form>
     </div>
 
     <!-- Daily Breakdown Table -->

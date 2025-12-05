@@ -35,7 +35,7 @@ class DependencyFactory {
         $billableHoursReport = new BillableHoursReport($workCompletedRepository);
         $googleChatWebhookUrl = defined('SMPLFY_GOOGLE_CHAT_WEBHOOK_URL') ? SMPLFY_GOOGLE_CHAT_WEBHOOK_URL : '';
         $billableHoursNotification = new BillableHoursNotification($billableHoursReport, $googleChatWebhookUrl);
-        $adminDashboard = new AdminDashboard($billableHoursReport, $billableHoursNotification);
+        $adminDashboard = new AdminDashboard($billableHoursReport);
 
 		// Adapters
 		new GravityFormsAdapter( $updateHoursWorked, $workReportCompleted, $recalculateClientBalance );
