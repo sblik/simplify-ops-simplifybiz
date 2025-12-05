@@ -29,7 +29,23 @@ class WordPressAdapter {
 		add_filter( 'user_contactmethods', [ $this->addUserContactMethod, 'add_organization' ], 10, 2 );
 		add_filter( 'wp_nav_menu_objects', [ $this->menuLoaded, 'add_link_to_clients_balance' ] );
 
-        add_action( 'admin_menu', [$this->adminDashboard, 'register_menu'] );
+        add_action( 'admin_menu', [$this, 'register_menu'] );
         add_action( 'smplfy_send_billable_hours_report', [$this->billableHoursNotification, 'send']);
 	}
+
+    /**
+     * Register the admin menu page
+     */
+    public function register_menu(): void
+    {
+        add_menu_page(
+            'Billable Hours',               // Page title
+            'Billable Hours',               // Menu title
+            'manage_options',               // Capability required
+            'billable-hours-dashboard',     // Menu slug
+            [$this->adminDashboard, 'render_dashboard'],    // Callback function
+            'dashicons-chart-bar',          // Icon
+            30                              // Position
+        );
+    }
 }

@@ -15,22 +15,6 @@ class AdminDashboard
     }
 
     /**
-     * Register the admin menu page
-     */
-    public function register_menu(): void
-    {
-        add_menu_page(
-            'Billable Hours',               // Page title
-            'Billable Hours',               // Menu title
-            'manage_options',               // Capability required
-            'billable-hours-dashboard',     // Menu slug
-            [$this, 'render_dashboard'],    // Callback function
-            'dashicons-chart-bar',          // Icon
-            30                              // Position
-        );
-    }
-
-    /**
      * Render the dashboard page
      */
     public function render_dashboard(): void
