@@ -26,10 +26,18 @@ bootstrap_ops_simplify_plugin();
 /**
  * Schedule billable hours report cron on plugin activation
  */
-register_activation_hook( __FILE__, 'smplfy_activate_plugin');
+register_activation_hook( __FILE__, 'smplfy_activate_plugin' );
 function smplfy_activate_plugin() {
-    if ( ! wp_next_scheduled('smplfy_send_billable_hours_report' ) ) {
-        wp_schedule_event( strtotime( 'today 6:00pm' ), 'daily', 'smplfy_send_billable_hours_report' );
+    if ( ! wp_next_scheduled( 'smplfy_send_billable_hours_report' ) ) {
+        $denver = new DateTimeZone( 'America/Denver' );
+        $now = new DateTime( 'now', $denver );
+        $scheduled = new DateTime( 'today 6:00pm', $denver );
+
+        if ( $scheduled <= $now ) {
+            $scheduled->modify( '+1 day' );
+        }
+
+        wp_schedule_event( $scheduled->getTimestamp(), 'daily', 'smplfy_send_billable_hours_report' );
     }
 }
 
