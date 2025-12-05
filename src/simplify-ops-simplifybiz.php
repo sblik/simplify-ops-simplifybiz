@@ -22,3 +22,21 @@ define( 'BS_NAME_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 require_once BS_NAME_PLUGIN_DIR . 'bs_bootstrap.php';
 
 bootstrap_ops_simplify_plugin();
+
+/**
+ * Schedule billable hours report cron on plugin activation
+ */
+register_activation_hook( __FILE__, 'smplfy_activate_plugin');
+function smplfy_activate_plugin() {
+    if ( ! wp_next_scheduled('smplfy_send_billable_hours_report' ) ) {
+        wp_schedule_event( strtotime( 'today 6:00pm' ), 'daily', 'smplfy_send_billable_hours_report' );
+    }
+}
+
+/**
+ * Unschedule billable hours report cron on plugin deactivation
+ */
+register_deactivation_hook( __FILE__, 'smplfy_deactivate_plugin' );
+function smplfy_deactivate_plugin() {
+    wp_clear_scheduled_hook( 'smplfy_send_billable_hours_report' );
+}
