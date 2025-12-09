@@ -31,9 +31,13 @@ class BillableHoursNotification
             return false;
         }
 
-        $today = date('Y-m-d');
-        $month = (int)date('m');
-        $year = (int)date('Y');
+        // Use Denver timezone to match the cron schedule and work entry dates
+        $denver = new DateTimeZone('America/Denver');
+        $now = new DateTime('now', $denver);
+
+        $today = $now->format('Y-m-d');
+        $month = (int)$now->format('m');
+        $year = (int)$now->format('Y');
 
         $monthlyData = $this->billableHoursReport->get_monthly_report($month, $year);
         $todayHours = $monthlyData['daily'][$today] ?? 0;
@@ -48,7 +52,9 @@ class BillableHoursNotification
      */
     private function buildMessage(string $today, float $todayHours, array $monthlyData): array
     {
-        $monthName = date('F Y');
+        $denver = new DateTimeZone('America/Denver');
+        $now = new DateTime('now', $denver);
+        $monthName = $now->format('F Y');
 
         return [
             'text' =>
