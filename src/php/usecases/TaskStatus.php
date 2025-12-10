@@ -10,7 +10,13 @@ class TaskStatus
     }
 
 
-    function handle_stage_change($form, $entry_id, $object = null)
+    /**
+     * @param $form
+     * @param $entry_id
+     * @param $object
+     * @return void
+     */
+    function handle_stage_change($form, $entry_id, $object = null): void
     {
         if ($form['id'] == FormIDs::TASKS) {
             SMPLFY_Log::info("handle_stage_change triggered: ");
