@@ -10,18 +10,27 @@ class TaskStatus
     }
 
 
-    function handle_stage_change($step_id, $entry_id, $form_id, $status): void
+    /**
+     * @param $form
+     * @param $entry_id
+     * @param $object
+     * @return void
+     */
+    function handle_stage_change($form, $entry_id, $object = null): void
     {
-        if ($form_id == FormIDs::TASKS) {
+        if ($form['id'] == FormIDs::TASKS) {
+            SMPLFY_Log::info("handle_stage_change triggered: ");
             $taskEntity = $this->taskRepository->get_one_by_id($entry_id);
-
+            SMPLFY_Log::info("Task entity: ", $taskEntity);
             $taskStage = $taskEntity->stage;
 
-            if ($taskStage == 'To Do' && $step_id !== 238) {
+            $workflowStepID = $taskEntity->formEntry['workflow_step'];
+            SMPLFY_Log::info("Workflow step ID: ", $workflowStepID);
+            if ($taskStage == 'To Do' && $workflowStepID !== 238) {
                 WorkflowStep::send(238, $taskEntity->formEntry);
-            } elseif ($taskStage == 'Doing' && $step_id !== 239) {
+            } elseif ($taskStage == 'Doing' && $workflowStepID !== 239) {
                 WorkflowStep::send(239, $taskEntity->formEntry);
-            } elseif ($taskStage == 'Approve' && $step_id !== 240) {
+            } elseif ($taskStage == 'Approve' && $workflowStepID !== 240) {
                 WorkflowStep::send(240, $taskEntity->formEntry);
             }
         }

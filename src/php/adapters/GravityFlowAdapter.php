@@ -8,13 +8,11 @@ class GravityFlowAdapter
 
     private HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted;
     private WorkReportApproved            $workReportApproved;
-    private TaskStatus                    $taskStatus;
 
-    public function __construct(HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted, WorkReportApproved $workReportApproved, TaskStatus $taskStatus)
+    public function __construct(HandleApprovalOnWorkCompleted $handleApprovalOnWorkCompleted, WorkReportApproved $workReportApproved)
     {
         $this->handleApprovalOnWorkCompleted = $handleApprovalOnWorkCompleted;
         $this->workReportApproved            = $workReportApproved;
-        $this->taskStatus                    = $taskStatus;
 
         $this->register_hooks();
         $this->register_filters();
@@ -28,7 +26,6 @@ class GravityFlowAdapter
     public function register_hooks()
     {
         add_action('gravityflow_step_complete', [$this->handleApprovalOnWorkCompleted, 'update_client_balances'], 10, 4);
-        add_action('gravityflow_step_complete', [$this->taskStatus, 'handle_stage_change'], 10, 4);
         // add_action( 'gravityflow_post_status_update_approval', [ $this->workReportApproved,'handle_workflow_approved'], 10, 4 );
     }
 
