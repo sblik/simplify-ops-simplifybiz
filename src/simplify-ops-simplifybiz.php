@@ -31,7 +31,7 @@ function smplfy_activate_plugin() {
     if ( ! wp_next_scheduled( 'smplfy_send_billable_hours_report' ) ) {
         $denver = new DateTimeZone( 'America/Denver' );
         $now = new DateTime( 'now', $denver );
-        $scheduled = new DateTime( 'today 6:00pm', $denver );
+        $scheduled = new DateTime( 'today 9:00pm', $denver );
 
         if ( $scheduled <= $now ) {
             $scheduled->modify( '+1 day' );
