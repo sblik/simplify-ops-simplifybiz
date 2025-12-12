@@ -43,7 +43,7 @@ class DependencyFactory
 
         // Adapters
         new GravityFormsAdapter($updateHoursWorked, $workReportCompleted, $recalculateClientBalance);
-        new GravityFlowAdapter($handleApprovalOnWorkCompleted, $workReportApproved);
+        new GravityFlowAdapter($handleApprovalOnWorkCompleted, $workReportApproved, $taskStatus);
         new GravityViewAdapter($taskStatus);
         new WordPressAdapter($addUserContactMethod, $menuLoaded, $userLogin, $adminDashboard, $billableHoursNotification);
         new MemberpressAdapter($userLogin);
