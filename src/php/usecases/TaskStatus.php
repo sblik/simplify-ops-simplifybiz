@@ -45,8 +45,18 @@ class TaskStatus
             exit;
         }
     }
-    function redirect_after_workflow_cancel( $feedback, $admin_action, $form, $entry ) {
+
+    function redirect_after_workflow_cancel($feedback, $admin_action, $form, $entry)
+    {
         SMPLFY_Log::info("Admin action triggered: ", $admin_action);
+
+        if ($form['id'] == FormIDs::TASKS) {
+            if ($admin_action == 'cancel_workflow') {
+                wp_redirect(site_url('/inbox/inbox-task-requests/'));
+                exit;
+            }
+        }
+
 
         return $feedback;
     }
