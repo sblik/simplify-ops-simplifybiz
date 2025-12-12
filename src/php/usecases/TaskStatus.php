@@ -45,4 +45,9 @@ class TaskStatus
             exit;
         }
     }
+    function redirect_after_workflow_cancel( $feedback, $admin_action, $form, $entry ) {
+        SMPLFY_Log::info("Admin action triggered: ", $admin_action);
+
+        return $feedback;
+    }
 }

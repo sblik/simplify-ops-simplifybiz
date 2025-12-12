@@ -34,6 +34,6 @@ class GravityFlowAdapter
 
     public function register_filters()
     {
-
+        add_filter( 'gravityflow_admin_action_feedback', [$this->taskStatus,'redirect_after_workflow_cancel'], 10, 4 );
     }
 }
