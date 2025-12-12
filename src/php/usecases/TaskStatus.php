@@ -41,7 +41,6 @@ class TaskStatus
         $pageID = get_the_ID();
 
         if ($pageID == 19882 && $form_id == 172) {
-            SMPLFY_Log::info("Step completed for form 172 on page 19882");
             wp_redirect(site_url('/inbox/inbox-task-requests/'));
             exit;
         }
