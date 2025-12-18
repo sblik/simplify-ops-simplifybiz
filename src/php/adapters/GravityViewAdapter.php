@@ -20,6 +20,6 @@ class GravityViewAdapter {
      * @return void
      */
     public function register_hooks() {
-        add_action('gravityview/edit_entry/after_update', [$this->taskStatus, 'handle_stage_change',], 10, 3);
+        //add_action('gravityview/edit_entry/after_update', [$this->taskStatus, 'handle_stage_change',], 10, 3);
     }
 }
