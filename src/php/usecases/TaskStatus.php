@@ -60,4 +60,19 @@ class TaskStatus
 
         return $feedback;
     }
+
+    /**
+     * @param $form
+     * @return mixed
+     */
+    function generate_do_items_checklist($form): mixed
+    {
+        BS_Log::info("Fields: ", $form['fields']);
+
+        foreach ($form['fields'] as &$field) {
+
+        }
+        return $form;
+    }
+
 }

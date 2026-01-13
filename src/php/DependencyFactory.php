@@ -42,7 +42,7 @@ class DependencyFactory
         $adminDashboard            = new AdminDashboard($billableHoursReport);
 
         // Adapters
-        new GravityFormsAdapter($updateHoursWorked, $workReportCompleted, $recalculateClientBalance);
+        new GravityFormsAdapter($updateHoursWorked, $workReportCompleted, $recalculateClientBalance, $taskStatus);
         new GravityFlowAdapter($handleApprovalOnWorkCompleted, $workReportApproved, $taskStatus);
         new GravityViewAdapter($taskStatus);
         new WordPressAdapter($addUserContactMethod, $menuLoaded, $userLogin, $adminDashboard, $billableHoursNotification);
