@@ -37,6 +37,6 @@ class GravityFormsAdapter
 
     public function register_filters()
     {
-        add_filter('gform_pre_render_172', [$this->taskStatus, 'handle_repeater_form_pre_render']);
+        add_filter('gform_pre_render_172', [$this->taskStatus, 'generate_do_items_checklist']);
     }
 }
